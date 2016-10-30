@@ -70,7 +70,7 @@ public class BreadthFirstSearch {
                     countEdges++;
                 }
                 return "Der Kürzeste Weg von " + source.toString()
-                        + " nach " + target.toString() + " ist :\n"
+                        + " nach " + target.toString() + " ist:\n"
                         + source.toString() + path + "\n"
                         + "über " + countEdges + " Kante(n).";
             }
