@@ -36,7 +36,6 @@ public class SampleController {
 	    
 	    @FXML
 	    public void open(){
-//	    	System.out.println("hello");
 	    	openbtn.setOnAction(new EventHandler<ActionEvent>() {
 				
 				@Override
@@ -44,16 +43,9 @@ public class SampleController {
 					FileChooser chooser = new FileChooser();
 					chooser.setTitle("Open .gka file");
 					File choosedFile = chooser.showOpenDialog(null);
-					VisualizeGraph visualize = new VisualizeGraph(choosedFile);
-					visualize.init();
-					JFrame frame = new JFrame();
-					frame.setSize(1000, 1000);
-					frame.getContentPane().add(visualize);
-					frame.setVisible(true);
-					//Demoread demo = new Demoread();
-					//demo.makeGraph(choosedFile);
-						System.out.println(choosedFile.getPath());
-					}
+					VisualizewithGS visualize = new VisualizewithGS(choosedFile);
+					visualize.draw();
+				}
 				
 			});
 			
