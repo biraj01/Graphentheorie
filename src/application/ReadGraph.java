@@ -11,10 +11,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.MultiGraph;
 
 /*
  * Dieser Klasse liest einer .gka datein, und speichert die Kanten, Knoten sowie der Typ von der Graph
@@ -30,6 +36,16 @@ public class ReadGraph {
 	private Set<String> vertex = new HashSet<>();
 	private List<String[]> edge = new ArrayList<>();
 	private boolean errorinGraph = false;
+	private Graph graph ;
+
+	
+	public Graph getGraph() {
+		return graph;
+	}
+
+	public void setGraph(Graph graph) {
+		this.graph = graph;
+	}
 
 	public List<String[]> getEdge() {
 		return edge;
@@ -96,16 +112,68 @@ public class ReadGraph {
 			try {
 				reader.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
+	
+	public void initGraph(File file){
+		getEdgesundVertix(file);
+		graph = new MultiGraph("graph");
+		graph.setStrict(false);
+		graph.setAutoCreate(true);
+		Iterator<String> vertexIt = vertex.iterator();
+		Iterator<String[]> edgeIt = edge.iterator();
+		if (typeofGraph.equals("directed")) {
+			System.out.println(edge.size());
+			while (edgeIt.hasNext()) {
+				String[] arr = edgeIt.next();
+				graph.addEdge(arr.toString(), arr[0], arr[1], true);
+			}
+			for (Node node : graph) {
+				node.addAttribute("ui.label", node.getId());
+			}
+		} else if (typeofGraph.equals("undirected")) {
+			while (edgeIt.hasNext()) {
+				String[] arr = edgeIt.next();
+				graph.addEdge(arr.toString(), arr[0], arr[1]);
+
+			}
+			for (Node node : graph) {
+				node.addAttribute("ui.label", node.getId());
+			}
+		} else if (typeofGraph.equals("undirectedWeightedGraph")) {
+			while (edgeIt.hasNext()) {
+				String[] arr = edgeIt.next();
+				Edge edge = graph.addEdge(arr.toString(), arr[0], arr[1]);
+				edge.setAttribute("ui.label", arr[2]);
+			}
+			for (Node node : graph) {
+				node.addAttribute("ui.label", node.getId());
+			}
+		} else if (typeofGraph.equals("directedWeightedGraph")) {
+			while (edgeIt.hasNext()) {
+				String[] arr = edgeIt.next();
+				Edge edge = graph.addEdge(arr.toString(), arr[0], arr[1], true);
+				edge.setAttribute("ui.label", arr[2]);
+			}
+			for (Node node : graph) {
+				node.addAttribute("ui.label", node.getId());
+			}
+
+		}
+	}
+	
+	public void zeichneGraph(File file){
+		initGraph(file);
+		graph.display();
+	}
+	
 
 	/*
 	 * Liest die datein und speichert die Kanten und Knoten
 	 */
-	public void makeGraph(File file) {
+	public void getEdgesundVertix(File file) {
 		findGraphType(file);
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -125,22 +193,6 @@ public class ReadGraph {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		// TODo:
-		// Find what type of graph it in the File with the help of Regular
-		// expression
-		// Case1: Undirected without Edge length
-		// Add Vertex in Map and Edge in list of array
-		// Graph type is Graphtype.1
-		// Case2: Directed without length
-		// Graph type is Graphtype.2
-		// Add Vertex in Map and Edge in list of array
-		// Case3: Undirected with length
-		// Graph type is Graphtype.2
-		// Add Vertex in Map and (Edge and length) in list of array[3]
-		// Case4 Directed with length
-		// Graph type is Graphtype.2
-		// Add Vertex in Map and (Edge and length) in list of array[3]
 
 	}
 
