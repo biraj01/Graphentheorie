@@ -1,5 +1,9 @@
 package application;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.AbstractGraph;
+import org.jgrapht.graph.Pseudograph;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +25,7 @@ public class ReadGraph {
 	private static final String undirected = "(.*)\\s*(--)\\s*([^:\\s]*);";
 	private static final String directedWeightedGraph = "(.*)\\s*(->)\\s*([^:]*)\\s*(:?)\\s*(\\(.+\\)|[0-9]+);";
 	private static final String undirectedWeightedGraph = "(.*)\\s*(--)\\s*([^:]*)\\s*(:?)\\s*([0-9]*);";
+	private Graph graph;
 	private String typeofGraph;
 	private Set<String> vertex = new HashSet<>();
 	private List<String[]> edge = new ArrayList<>();
@@ -240,4 +245,24 @@ public class ReadGraph {
 			}
 		}
 	}
+
+	public void createGraph(){
+		//Graph<String, String[]> tmpGraph = new Graph<>();
+		AbstractGraph<String, String[]> tmpGraph = new Pseudograph<String, String[]>(String[].class);
+		for (String s: vertex ) {
+			tmpGraph.addVertex(s);
+		}
+
+		for (String[] sE: edge ) {
+			//tmpGraph.addEdge(sE[0], sE[1]);
+			tmpGraph.addEdge(sE[0], sE[1], sE);
+		}
+		graph = tmpGraph;
+		//System.out.println("created Graph");
+	}
+
+	public Graph getGraph() {
+		return graph;
+	}
+}
 }
