@@ -43,8 +43,8 @@ public class SampleController {
 					FileChooser chooser = new FileChooser();
 					chooser.setTitle("Open .gka file");
 					File choosedFile = chooser.showOpenDialog(null);
-					VisualizewithGS visualize = new VisualizewithGS(choosedFile);
-					visualize.draw();
+					ReadGraph graph = new ReadGraph();
+					graph.zeichneGraph(choosedFile);
 				}
 				
 			});
