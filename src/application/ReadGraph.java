@@ -1,8 +1,10 @@
 package application;
 
-import org.jgrapht.Graph;
-import org.jgrapht.graph.AbstractGraph;
-import org.jgrapht.graph.Pseudograph;
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.MultiGraph;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,10 +19,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.MultiGraph;
 
 /*
  * Dieser Klasse liest einer .gka datein, und speichert die Kanten, Knoten sowie der Typ von der Graph
@@ -31,7 +29,6 @@ public class ReadGraph {
 	private static final String undirected = "(.*)\\s*(--)\\s*([^:\\s]*);";
 	private static final String directedWeightedGraph = "(.*)\\s*(->)\\s*([^:]*)\\s*(:?)\\s*(\\(.+\\)|[0-9]+);";
 	private static final String undirectedWeightedGraph = "(.*)\\s*(--)\\s*([^:]*)\\s*(:?)\\s*([0-9]*);";
-	private Graph graph;
 	private String typeofGraph;
 	private Set<String> vertex = new HashSet<>();
 	private List<String[]> edge = new ArrayList<>();
@@ -87,18 +84,14 @@ public class ReadGraph {
 		try {
 			reader = new BufferedReader(new FileReader(file));
 			String firstline = reader.readLine();
-			System.out.println(firstline);
+			//System.out.println(firstline);
 			if (firstline.matches(directed)) {
-				System.out.println("The graph is directed");
 				setTypeofGraph("directed");
 			} else if (firstline.matches(undirected)) {
-				System.out.println("The graph is undirected");
 				setTypeofGraph("undirected");
 			} else if (firstline.matches(undirectedWeightedGraph)) {
-				System.out.println("The graph is undirected with length");
 				setTypeofGraph("undirectedWeightedGraph");
 			} else if (firstline.matches(directedWeightedGraph)) {
-				System.out.println("The graph is directed with length");
 				setTypeofGraph("directedWeightedGraph");
 			} else {
 				setTypeofGraph("ErrorGraph");
@@ -116,16 +109,19 @@ public class ReadGraph {
 			}
 		}
 	}
-	
+
+	/*
+	 * Initialisiert den Graphen mit Vertices und Edges
+	 */
 	public void initGraph(File file){
-		getEdgesundVertix(file);
+		getEdgesundVertex(file); // set edges and vertices for the graph
 		graph = new MultiGraph("graph");
+		graph.addAttribute("ui.stylesheet", "url('C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\src\\application\\stylesheet.css')");
 		graph.setStrict(false);
 		graph.setAutoCreate(true);
-		Iterator<String> vertexIt = vertex.iterator();
+		//Iterator<String> vertexIt = vertex.iterator();
 		Iterator<String[]> edgeIt = edge.iterator();
 		if (typeofGraph.equals("directed")) {
-			System.out.println(edge.size());
 			while (edgeIt.hasNext()) {
 				String[] arr = edgeIt.next();
 				graph.addEdge(arr.toString(), arr[0], arr[1], true);
@@ -147,6 +143,7 @@ public class ReadGraph {
 				String[] arr = edgeIt.next();
 				Edge edge = graph.addEdge(arr.toString(), arr[0], arr[1]);
 				edge.setAttribute("ui.label", arr[2]);
+				edge.setAttribute("edgeLength", Double.parseDouble(arr[2]));
 			}
 			for (Node node : graph) {
 				node.addAttribute("ui.label", node.getId());
@@ -156,6 +153,7 @@ public class ReadGraph {
 				String[] arr = edgeIt.next();
 				Edge edge = graph.addEdge(arr.toString(), arr[0], arr[1], true);
 				edge.setAttribute("ui.label", arr[2]);
+				edge.setAttribute("edgeLength", Double.parseDouble(arr[2]));
 			}
 			for (Node node : graph) {
 				node.addAttribute("ui.label", node.getId());
@@ -173,7 +171,7 @@ public class ReadGraph {
 	/*
 	 * Liest die datein und speichert die Kanten und Knoten
 	 */
-	public void getEdgesundVertix(File file) {
+	public void getEdgesundVertex(File file) {
 		findGraphType(file);
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -201,7 +199,7 @@ public class ReadGraph {
 		Pattern pattern = Pattern.compile(directedWeightedGraph);
 		while ((line = reader.readLine()) != null) {
 			Matcher m = pattern.matcher(line);
-			System.out.println(line);
+			//System.out.println(line);
 			if (m.matches()) {
 				vertex.add(m.group(1).trim());
 				vertex.add(m.group(3).trim());
@@ -254,7 +252,7 @@ public class ReadGraph {
 		while ((line = reader.readLine()) != null) {
 			Matcher m = pattern.matcher(line);
 			if (m.matches()) {
-				System.out.println(m.group(1) + " " + m.group(2) + " " + m.group(3));
+				//System.out.println(m.group(1) + " " + m.group(2) + " " + m.group(3));
 				vertex.add(m.group(1).trim());
 				vertex.add(m.group(3).trim());
 				String[] temp = new String[2];
@@ -279,7 +277,6 @@ public class ReadGraph {
 		while ((line = reader.readLine()) != null) {
 			Matcher m = pattern.matcher(line);
 			if (m.matches()) {
-				System.out.println(m.group(1) + " " + m.group(2) + " " + m.group(3));
 				vertex.add(m.group(1).trim());
 				vertex.add(m.group(3).trim());
 				String[] temp = new String[2];
@@ -298,23 +295,4 @@ public class ReadGraph {
 		}
 	}
 
-	public void createGraph(){
-		//Graph<String, String[]> tmpGraph = new Graph<>();
-		AbstractGraph<String, String[]> tmpGraph = new Pseudograph<String, String[]>(String[].class);
-		for (String s: vertex ) {
-			tmpGraph.addVertex(s);
-		}
-
-		for (String[] sE: edge ) {
-			//tmpGraph.addEdge(sE[0], sE[1]);
-			tmpGraph.addEdge(sE[0], sE[1], sE);
-		}
-		graph = tmpGraph;
-		//System.out.println("created Graph");
-	}
-
-	public Graph getGraph() {
-		return graph;
-	}
-}
 }

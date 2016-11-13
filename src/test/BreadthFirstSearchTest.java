@@ -1,14 +1,13 @@
 package test;
 
-import algorithm.BreadthFirstSearch;
+import algorithm.BreadthFirst;
 import application.ReadGraph;
-import org.jgrapht.Graph;
+
+import org.graphstream.graph.Graph;
 import org.junit.Before;
 import org.junit.Test;
-import sun.security.provider.certpath.Vertex;
 
 import java.io.File;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,33 +16,84 @@ import static org.junit.Assert.assertEquals;
  */
 public class BreadthFirstSearchTest {
 
-    ReadGraph gf;
-    BreadthFirstSearch bfs;
+	ReadGraph gf;
+	BreadthFirst bfs;
 
-    @Before
-    public void setUp() {
+	@Before
+	public void setUp() {
 
-        gf = new ReadGraph();
-        File file = new File("C:\\Users\\Marcel\\Desktop\\Graphentheorie\\asserts\\graphTest.gka");
-        gf.makeGraph(file);
-    }
+		gf = new ReadGraph();
+		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3.gka");
+		gf.initGraph(file);
+		gf.zeichneGraph(file);
+	}
 
-    @Test
-    public void testRightOutput() {
+	@Test
+    public void testRightOutputDirectedGraph() {
+    	 gf = new ReadGraph();
+         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph1.gka");
+         gf.initGraph(file);
+         gf.zeichneGraph(file);
 
-        //Set<String> vertices = gf.getVertices();
-        //Object[] array = vertices.toArray();
-        gf.createGraph();
-        Graph graph = gf.getGraph();
-        Set<String> vertices = graph.vertexSet();
-        Object[] array = vertices.toArray();
-        bfs = new BreadthFirstSearch(gf.getGraph(), array[0].toString(), array[9].toString());
-
+    	Graph graph = gf.getGraph();
+    	
+        bfs = new BreadthFirst(graph, "a", "j");
         assertEquals(
-                "Der Kürzeste Weg von a nach j ist:\n" +
+                "Der Kurzeste Weg von a nach j ist:\n" +
                         "a --> b --> j\n" +
-                        "über 2 Kante(n).", bfs.doSearch());
-    }
+                        "Über 2 Kante(n).", bfs.doSearch());
+   
+        }
 
+	@Test
+	public void testRightOutputUndirectedWeightedGraph() {
+		gf = new ReadGraph();
+		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph12.gka");
+		gf.initGraph(file);
+		gf.zeichneGraph(file);
+
+		Graph graph = gf.getGraph();
+
+		bfs = new BreadthFirst(graph, "a", "g");
+		assertEquals(
+				"Der Kurzeste Weg von a nach g ist:\n" +
+						"a --> b --> c --> e --> d --> g\n" +
+						"Über 5 Kante(n).", bfs.doSearch());
+
+	}
+
+	@Test
+	public void testRightOutputUndirectedGraph() {
+		gf = new ReadGraph();
+		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph2.gka");
+		gf.initGraph(file);
+		gf.zeichneGraph(file);
+
+		Graph graph = gf.getGraph();
+
+		bfs = new BreadthFirst(graph, "a", "f");
+		assertEquals(
+				"Der Kurzeste Weg von a nach f ist:\n" +
+						"a --> e --> f\n" +
+						"Über 2 Kante(n).", bfs.doSearch());
+
+	}
+
+	@Test
+	public void testRightOutputDirectedWeightedGraph() {
+		gf = new ReadGraph();
+		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph11.gka");
+		gf.initGraph(file);
+		gf.zeichneGraph(file);
+
+		Graph graph = gf.getGraph();
+
+		bfs = new BreadthFirst(graph, "a", "g");
+		assertEquals(
+				"Der Kurzeste Weg von a nach g ist:\n" +
+						"a --> b --> c --> e --> d --> g\n" +
+						"Über 5 Kante(n).", bfs.doSearch());
+
+	}
 
 }

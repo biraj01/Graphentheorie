@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="file://C:/Users/Biraj/Downloads/jgrapht-1.0.0/jgrapht-1.0.0/lib/jgrapht-core-1.0.0.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/jgrapht-1.0.0/jgrapht-1.0.0/lib/jgraph-5.13.0.0.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/jgrapht-1.0.0/jgrapht-1.0.0/lib/jgrapht-ext-1.0.0.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/jgrapht-1.0.0/jgrapht-1.0.0/lib/jgrapht-demo-1.0.0.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-ui-1.3/gs-ui-1.3/gs-ui-1.3.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-ui-1.3/gs-ui-1.3/gs-ui-1.3-javadoc.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-ui-1.3/gs-ui-1.3/gs-ui-1.3-sources.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-algo-1.3/gs-algo-1.3/gs-algo-1.3.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-algo-1.3/gs-algo-1.3/gs-algo-1.3-javadoc.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-algo-1.3/gs-algo-1.3/gs-algo-1.3-sources.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-core-1.3/gs-core-1.3/gs-core-1.3.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-core-1.3/gs-core-1.3/gs-core-1.3-javadoc.jar" />
+    <libelement value="file://C:/Users/Biraj/Downloads/gs-core-1.3/gs-core-1.3/gs-core-1.3-sources.jar" />
+    <conelement value="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="jdk" jdkName="1.8u112" jdkType="JavaSDK" />
+    <orderEntry type="module-library" exported="">
+      <library name="tools">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-algo-1.3/gs-algo-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-core-1.3/gs-core-1.3-sources.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-core-1.3/gs-core-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-ui-1.3/gs-ui-1.3-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-ui-1.3/gs-ui-1.3-sources.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-ui-1.3/gs-ui-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/hamcrest-all-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/junit-4.11.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-algo-1.3/gs-algo-1.3-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-core-1.3/gs-core-1.3-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-algo-1.3/gs-algo-1.3-sources.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/aTools/gs-core-1.3/gs-core-1.3-sources.jar!/" />
+        </SOURCES>
+        <jarDirectory url="jar://$USER_HOME$/Documents/aTools/gs-ui-1.3/gs-ui-1.3-javadoc.jar!/" recursive="false" />
+        <jarDirectory url="jar://$USER_HOME$/Documents/aTools/gs-ui-1.3/gs-ui-1.3-sources.jar!/" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/Documents/IntelliJ-Programme/jgrapht-1.0.0/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/Documents/IntelliJ-Programme/jgrapht-1.0.0/lib" recursive="false" />
+      </library>
+    </orderEntry>
+  </component>
+</module>
