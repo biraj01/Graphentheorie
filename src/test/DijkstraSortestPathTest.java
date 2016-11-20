@@ -209,7 +209,7 @@ public class DijkstraSortestPathTest {
     // fw.outputTransMatrix();
     fw.outputDistance();
 
-    // assertEquals( fw.getPathlength() , "946.0");
+     assertEquals( fw.getPathLength() , 946.0);
     System.out.println("########################################################");
   }
 

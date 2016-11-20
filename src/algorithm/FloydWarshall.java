@@ -11,7 +11,7 @@ import application.ReadGraph;
 
 public class FloydWarshall {
 
-  private double[][] distanzmatrix;
+  private double[][] distancematrix;
   private String[][] transismatrix;
   private Graph g;
 
@@ -37,11 +37,11 @@ public class FloydWarshall {
   }
   
   public double[][] getDistanzmatrix() {
-    return distanzmatrix;
+    return distancematrix;
   }
 
   public void setDistanzmatrix(double[][] distanzmatrix) {
-    this.distanzmatrix = distanzmatrix;
+    this.distancematrix = distanzmatrix;
   }
 
   public String[][] getTransismatrix() {
@@ -62,56 +62,54 @@ public class FloydWarshall {
 
   private void initMatrix() {
     int size = g.getNodeSet().size();
-    this.distanzmatrix = new double[size][size];
+    this.distancematrix = new double[size][size];
     this.transismatrix = new String[size][size];
+ // initialise diagonal to zero and other to infinitive
     for (int i = 0; i < size; i++) {
       for (int j = 0; j < size; j++) {
         count++;
         if (i == j) {
-          distanzmatrix[i][j] = 0;
+          distancematrix[i][j] = 0;
         } else {
-          distanzmatrix[i][j] = Double.POSITIVE_INFINITY;
+          distancematrix[i][j] = Double.POSITIVE_INFINITY;
         }
       }
     }
-    // initialise diagonal to zero and other to infinitive
-    System.out.println();
+ // Initialise other direct distance in the matrix
     for (int i = 0; i < size; i++) {
       Node n = g.getNode(i);
       for (Edge e : n.getEnteringEdgeSet()) {
         count++;
-        distanzmatrix[e.getSourceNode().getIndex()][e.getTargetNode().getIndex()] = e.getAttribute("edgeLength");
+        distancematrix[e.getSourceNode().getIndex()][e.getTargetNode().getIndex()] = e.getAttribute("edgeLength");
       }
-
     }
-    // Initialise other direct distance in the matrix
   }
 
   public void updateMatrix() {
     for (int i = 0; i < g.getNodeSet().size(); i++) {
       for (int v = 0; v < g.getNodeSet().size(); v++) {
         for (int w = 0; w < g.getNodeSet().size(); w++) {
-          if (distanzmatrix[v][w] > distanzmatrix[v][i] + distanzmatrix[i][w]) {
-            distanzmatrix[v][w] = distanzmatrix[v][i] + distanzmatrix[i][w];
+          if (distancematrix[v][w] > distancematrix[v][i] + distancematrix[i][w]) {
+            distancematrix[v][w] = distancematrix[v][i] + distancematrix[i][w];
             transismatrix[v][w] = g.getNode(i).getId();
             count++;
           }
         }
         // check for negative cycle
-        if (distanzmatrix[v][v] < 0.0) {
+        if (distancematrix[v][v] < 0.0) {
           hasNegativeCycle = true;
           System.err.println("Negative cycle not allowed");
-          return;
+          System.exit(-1);
         }
       }
     }
-    pathLength = distanzmatrix[start.getIndex()][end.getIndex()];
+    pathLength = distancematrix[start.getIndex()][end.getIndex()];
   }
 
   public void output() {
     for (int i = 0; i < g.getNodeSet().size(); i++) {
       for (int j = 0; j < g.getNodeSet().size(); j++) {
-        System.out.print(distanzmatrix[i][j] + " | ");
+        System.out.print(distancematrix[i][j] + " | ");
       }
       System.out.println();
     }
@@ -133,23 +131,16 @@ public class FloydWarshall {
     System.out.println("Anzahl Zugriff: " + count);
   }
 
-  public static void main(String[] args) {
-    ReadGraph gf = new ReadGraph();
-    File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph11.gka");
-    gf.initGraph(file); // initialize the graph
-    Graph g = gf.getGraph();
-    gf.zeichneGraph(file); // draw the graph
-    // FloydWarshall fw = new FloydWarshall(g);
-    // fw.updateMatrix();
-    // Give all the shortest distance in the matrix
-    // fw.output();
-    System.out.println();
-    // fw.outputTransMatrix(); //hier fehlt nun sinnvoll ausgabe von der
-    // transmatrix damit man der Weg zurückverfolgen kann
-
-    FloydWarshall fw1 = new FloydWarshall(g, "a", "d");
-    fw1.updateMatrix();
-    fw1.outputDistance();
-  }
+//  public static void main(String[] args) {
+//    ReadGraph gf = new ReadGraph();
+//    File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph11.gka");
+//    gf.initGraph(file); // initialize the graph
+//    Graph g = gf.getGraph();
+//    gf.zeichneGraph(file); // draw the graph
+//    System.out.println();
+//    FloydWarshall fw1 = new FloydWarshall(g, "a", "d");
+//    fw1.updateMatrix();
+//    fw1.outputDistance();
+//  }
 
 }

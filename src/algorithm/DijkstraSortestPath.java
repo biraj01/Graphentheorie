@@ -23,7 +23,7 @@ public class DijkstraSortestPath {
   private Set<Node> settledNodes;
   private Set<Node> unsettledNodes;
   private int count;
-  Map<Node, Node> predecessoders;
+  Map<Node, Node> predecessor;
 	
 	
 	public Node getVertexStart() {
@@ -75,9 +75,9 @@ public class DijkstraSortestPath {
 	public void doSearch() {
 		settledNodes = new HashSet<Node>();
 		unsettledNodes = new HashSet<Node>();
-		predecessoders = new HashMap<>();
+		predecessor = new HashMap<>();
 		unsettledNodes.add(vertexStart);
-		vertexStart.setAttribute("ui.color","red");
+		//vertexStart.setAttribute("ui.color","red");
 		while (unsettledNodes.size() > 0) {
 		  count++;
 			Node node = getMin(unsettledNodes);
@@ -126,7 +126,7 @@ public class DijkstraSortestPath {
 					+ (double) node.getEdgeBetween(target).getAttribute("edgeLength")) {
 				target.setAttribute("entfernung", (double) node.getAttribute("entfernung")
 						+ (double) node.getEdgeBetween(target).getAttribute("edgeLength"));
-				predecessoders.put(target, node);
+				predecessor.put(target, node);
 				target.setAttribute("ui.color",1);
 				unsettledNodes.add(target);
 			}
@@ -137,12 +137,12 @@ public class DijkstraSortestPath {
 		LinkedList<Node> path = new LinkedList<Node>();
 		Node step = target;
 		// check if a path exists
-		if (predecessoders.get(step) == null) {
+		if (predecessor.get(step) == null) {
 			return null;
 		}
 		path.add(step);
-		while (predecessoders.get(step) != null) {
-			step = predecessoders.get(step);
+		while (predecessor.get(step) != null) {
+			step = predecessor.get(step);
 			path.add(step);
 		}
 		// Put it into the correct order
