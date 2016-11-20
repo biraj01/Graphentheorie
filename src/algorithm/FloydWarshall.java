@@ -14,6 +14,7 @@ public class FloydWarshall {
   private double[][] distanzmatrix;
   private String[][] transismatrix;
   private Graph g;
+
   private boolean hasNegativeCycle;
   private Node start;
   private Node end;
@@ -33,6 +34,22 @@ public class FloydWarshall {
     this.end = g.getNode(end);
     ;
 
+  }
+  
+  public double[][] getDistanzmatrix() {
+    return distanzmatrix;
+  }
+
+  public void setDistanzmatrix(double[][] distanzmatrix) {
+    this.distanzmatrix = distanzmatrix;
+  }
+
+  public String[][] getTransismatrix() {
+    return transismatrix;
+  }
+
+  public void setTransismatrix(String[][] transismatrix) {
+    this.transismatrix = transismatrix;
   }
 
   public double getPathLength() {
@@ -118,7 +135,7 @@ public class FloydWarshall {
 
   public static void main(String[] args) {
     ReadGraph gf = new ReadGraph();
-    File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3.gka");
+    File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph11.gka");
     gf.initGraph(file); // initialize the graph
     Graph g = gf.getGraph();
     gf.zeichneGraph(file); // draw the graph
@@ -130,7 +147,7 @@ public class FloydWarshall {
     // fw.outputTransMatrix(); //hier fehlt nun sinnvoll ausgabe von der
     // transmatrix damit man der Weg zurückverfolgen kann
 
-    FloydWarshall fw1 = new FloydWarshall(g, "Hannover", "Paderborn");
+    FloydWarshall fw1 = new FloydWarshall(g, "a", "d");
     fw1.updateMatrix();
     fw1.outputDistance();
   }
