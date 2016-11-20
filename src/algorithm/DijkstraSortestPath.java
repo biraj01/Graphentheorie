@@ -22,9 +22,7 @@ public class DijkstraSortestPath {
 	private Node vertexEnd;
 	private Set<Node> settledNodes;
 	private Set<Node> unsettledNodes;
-	private String entfernung;
-	private String vorganger;
-	private boolean ok;
+	private int count;
 	Map<Node, Node> predecessoders;
 
 	public DijkstraSortestPath(Graph graph, String source, String target) {
@@ -36,11 +34,11 @@ public class DijkstraSortestPath {
 	public static void main(String[] args) {
 
 		ReadGraph gf = new ReadGraph();
-		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph10b.gka");
+		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3b.gka");
 		gf.initGraph(file); // initialize the graph
 		Graph g = gf.getGraph();
 		gf.zeichneGraph(file); // draw the graph
-		DijkstraSortestPath bf = new DijkstraSortestPath(g, "v4", "v10");
+		DijkstraSortestPath bf = new DijkstraSortestPath(g, "Hannover", "Paderborn");
 		bf.init(g);
 		bf.doSearch();
 		bf.getPath(bf.vertexEnd);
@@ -51,14 +49,18 @@ public class DijkstraSortestPath {
 
 		Iterator<Node> nodeIt = graph.getNodeIterator();
 		while (nodeIt.hasNext()) {
+		  count++;
 			Node n = (Node) nodeIt.next();
 			if (n.getId().equals(this.vertexStart.getId())) {
 				n.setAttribute("entfernung", 0.0);
+				count++;
 				n.setAttribute("vorgaenger", this.vertexStart.getId());
+				count++;
 			} else {
 				n.setAttribute("entfernung", Double.POSITIVE_INFINITY);
 				n.setAttribute("vorgaenger", "Undefined");
 				n.setAttribute("ok", false);
+				count +=3;
 			}
 		}
 
@@ -71,6 +73,7 @@ public class DijkstraSortestPath {
 		unsettledNodes.add(vertexStart);
 		vertexStart.setAttribute("ui.color","red");
 		while (unsettledNodes.size() > 0) {
+		  count++;
 			Node node = getMin(unsettledNodes);
 			settledNodes.add(node);
 			unsettledNodes.remove(node);
@@ -84,9 +87,11 @@ public class DijkstraSortestPath {
 		for (Node node : vertexes) {
 			if (minimum == null) {
 				minimum = node;
+				count++;
 			} else {
 				if ((double) node.getAttribute("entfernung") < (double) minimum.getAttribute("entfernung")) {
 					minimum = node;
+					count++;
 				}
 			}
 		}
@@ -97,16 +102,19 @@ public class DijkstraSortestPath {
 	  Iterator<Node> nodes;
 	  if(graph.getAttribute("type").equals("undirected")){
 	    nodes = node.getNeighborNodeIterator();
+	    count++;
 	  }else{
 	    Iterator<Edge> edges = node.getEachLeavingEdge().iterator();
 	    Set<Node> temp = new HashSet<>();
 	    while(edges.hasNext()){
+	      count++;
 	      temp.add(edges.next().getTargetNode());
 	    }
 	    nodes = temp.iterator();
 	  }
 		
 		while (nodes.hasNext()) {
+		  count++;
 				Node target = nodes.next();
 			if ((double) target.getAttribute("entfernung") > (double) node.getAttribute("entfernung")
 					+ (double) node.getEdgeBetween(target).getAttribute("edgeLength")) {
@@ -138,6 +146,9 @@ public class DijkstraSortestPath {
 		  System.out.print(path.get(i).toString() + " -> ");
 		}
 		System.out.print(path.get(path.size()-1));
+		System.out.println("  über " + (path.size() ) + " kanten");
+		System.out.println((path.get(path.size()-1)).getAttribute("entfernung").toString());
+		System.out.println("Anzahl Zugriff: " + count);
 		return path;
 
 	}

@@ -17,6 +17,7 @@ public class FloydWarshall {
 	private boolean hasNegativeCycle;
 	private Node start;
 	private Node end;
+	private int count; 
 
 	public FloydWarshall(Graph g) {
 		this.g = g;
@@ -37,6 +38,7 @@ public class FloydWarshall {
 		this.transismatrix = new String[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
+			  count++;
 				if (i == j) {
 					distanzmatrix[i][j] = 0;
 				} else {
@@ -51,6 +53,7 @@ public class FloydWarshall {
 		for (int i = 0; i < size; i++) {
 			Node n = g.getNode(i);
 			for (Edge e : n.getEnteringEdgeSet()) {
+			  count++;
 				distanzmatrix[e.getSourceNode().getIndex()][e.getTargetNode().getIndex()] = e
 						.getAttribute("edgeLength");
 			}
@@ -69,6 +72,7 @@ public class FloydWarshall {
 					if (distanzmatrix[v][w] > distanzmatrix[v][i] + distanzmatrix[i][w]) {
 						distanzmatrix[v][w] = distanzmatrix[v][i] + distanzmatrix[i][w];
 						transismatrix[v][w] =  g.getNode(i).getId();
+						count++;
 					}
 				}
 				// check for negative cycle
@@ -98,10 +102,17 @@ public class FloydWarshall {
 			System.out.println();
 		}
 	}
+	
+	private void outputDistance(){
+	  System.out.print("Der kürzeste Pfad zwischen "+  start.getId() + " und "  + end.getId() + " ist:"); 
+    System.out.println(distanzmatrix[start.getIndex()][end.getIndex()] + " über ");
+    System.out.println(transismatrix[start.getIndex()][end.getIndex()]);
+    System.out.println("Anzahl Zugriff: " + count);
+	}
 
 	public static void main(String[] args) {
 		ReadGraph gf = new ReadGraph();
-		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph10c.gka");
+		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3.gka");
 		gf.initGraph(file); // initialize the graph
 		Graph g = gf.getGraph();
 		gf.zeichneGraph(file); // draw the graph
@@ -113,12 +124,9 @@ public class FloydWarshall {
 		System.out.println();
 		//fw.outputTransMatrix(); //hier fehlt nun sinnvoll ausgabe von der transmatrix damit man der Weg zurückverfolgen kann
 		
-    FloydWarshall fw1 = new FloydWarshall(g, "a", "d");
+    FloydWarshall fw1 = new FloydWarshall(g, "Hannover", "Paderborn");
     fw1.updateMatrix();
-    System.out.print("Der kürzeste Pfad zwischen "+  fw1.start.getId() + " und "  + fw1.end.getId() + " ist:"); 
-    System.out.println(fw1.distanzmatrix[fw1.start.getIndex()][fw1.end.getIndex()] + " über ");
-    System.out.println(fw1.transismatrix[fw1.start.getIndex()][fw1.end.getIndex()]);
-    fw1.outputTransMatrix(); 
+    fw1.outputDistance(); 
 	}
 
 }
