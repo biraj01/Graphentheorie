@@ -12,20 +12,29 @@ import application.ReadGraph;
 public class FloydWarshall {
 
 	private double[][] distanzmatrix;
-	private double[][] transismatrix;
+	private String[][] transismatrix;
 	private Graph g;
 	private boolean hasNegativeCycle;
+	private Node start;
+	private Node end;
 
 	public FloydWarshall(Graph g) {
 		this.g = g;
 		initMatrix();
 
 	}
+	public FloydWarshall(Graph g, String start, String end) {
+    this.g = g;
+    initMatrix();
+    this.start = g.getNode(start);
+    this.end= g.getNode(end);;
+
+  }
 
 	private void initMatrix() {
 		int size = g.getNodeSet().size();
 		this.distanzmatrix = new double[size][size];
-		this.transismatrix = new double[size][size];
+		this.transismatrix = new String[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (i == j) {
@@ -59,7 +68,7 @@ public class FloydWarshall {
 				for (int w = 0; w < g.getNodeSet().size(); w++) {
 					if (distanzmatrix[v][w] > distanzmatrix[v][i] + distanzmatrix[i][w]) {
 						distanzmatrix[v][w] = distanzmatrix[v][i] + distanzmatrix[i][w];
-						transismatrix[v][w] = i;
+						transismatrix[v][w] =  g.getNode(i).getId();
 					}
 				}
 				// check for negative cycle
@@ -100,9 +109,16 @@ public class FloydWarshall {
 		fw.updateMatrix();
 		// Give all the shortest distance in the matrix
 		System.out.println("Give all the shortest distance in the matrix");
-		fw.output();
+		//fw.output();
 		System.out.println();
-		fw.outputTransMatrix(); //hier fehlt nun sinnvoll ausgabe von der transmatrix damit man der Weg zurückverfolgen kann
+		//fw.outputTransMatrix(); //hier fehlt nun sinnvoll ausgabe von der transmatrix damit man der Weg zurückverfolgen kann
+		
+    FloydWarshall fw1 = new FloydWarshall(g, "a", "d");
+    fw1.updateMatrix();
+    System.out.print("Der kürzeste Pfad zwischen "+  fw1.start.getId() + " und "  + fw1.end.getId() + " ist:"); 
+    System.out.println(fw1.distanzmatrix[fw1.start.getIndex()][fw1.end.getIndex()] + " über ");
+    System.out.println(fw1.transismatrix[fw1.start.getIndex()][fw1.end.getIndex()]);
+    fw1.outputTransMatrix(); 
 	}
 
 }

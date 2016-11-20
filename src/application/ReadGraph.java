@@ -127,18 +127,13 @@ public class ReadGraph {
 				String[] arr = edgeIt.next();
 				graph.addEdge(arr.toString(), arr[0], arr[1], true);
 			}
-			for (Node node : graph) {
-				node.addAttribute("ui.label", node.getId());
-			}
+			
 		} else if (typeofGraph.equals("undirected")) {
 		  graph.addAttribute("type", "undirected");
 			while (edgeIt.hasNext()) {
 				String[] arr = edgeIt.next();
 				graph.addEdge(arr.toString(), arr[0], arr[1]);
 
-			}
-			for (Node node : graph) {
-				node.addAttribute("ui.label", node.getId());
 			}
 		} else if (typeofGraph.equals("undirectedWeightedGraph")) {
 		  graph.addAttribute("type", "undirected");
@@ -148,9 +143,6 @@ public class ReadGraph {
 				edge.setAttribute("ui.label", arr[2]);
 				edge.setAttribute("edgeLength", Double.parseDouble(arr[2]));
 			}
-			for (Node node : graph) {
-				node.addAttribute("ui.label", node.getId());
-			}
 		} else if (typeofGraph.equals("directedWeightedGraph")) {
 		  graph.addAttribute("type", "directed");
 			while (edgeIt.hasNext()) {
@@ -159,11 +151,12 @@ public class ReadGraph {
 				edge.setAttribute("ui.label", arr[2]);
 				edge.setAttribute("edgeLength", Double.parseDouble(arr[2]));
 			}
-			for (Node node : graph) {
-				node.addAttribute("ui.label", node.getId());
-			}
 
 		}
+		for (Node node : graph) {
+      node.addAttribute("ui.label", node.getId() + "(" + node.getIndex() + ")" );
+    }
+
 	}
 	
 	public void zeichneGraph(File file){

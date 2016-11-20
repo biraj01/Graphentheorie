@@ -41,7 +41,6 @@ public class DijkstraSortestPath {
 		Graph g = gf.getGraph();
 		gf.zeichneGraph(file); // draw the graph
 		DijkstraSortestPath bf = new DijkstraSortestPath(g, "v4", "v10");
-		// System.out.println(bf.doSearch());
 		bf.init(g);
 		bf.doSearch();
 		bf.getPath(bf.vertexEnd);
@@ -56,12 +55,10 @@ public class DijkstraSortestPath {
 			if (n.getId().equals(this.vertexStart.getId())) {
 				n.setAttribute("entfernung", 0.0);
 				n.setAttribute("vorgaenger", this.vertexStart.getId());
-				System.out.println("entfernung: " + n.getAttribute("entfernung").toString());
 			} else {
 				n.setAttribute("entfernung", Double.POSITIVE_INFINITY);
 				n.setAttribute("vorgaenger", "Undefined");
 				n.setAttribute("ok", false);
-				System.out.println(n.getId());
 			}
 		}
 
@@ -136,9 +133,11 @@ public class DijkstraSortestPath {
 		}
 		// Put it into the correct order
 		Collections.reverse(path);
-		for (Node n : path) {
-			System.out.print(n.toString() + " -> ");
+		System.out.println("Der kürzeste Pfad für dieses Graph ist: ");
+		for(int i = 0; i< path.size() - 1;i++){
+		  System.out.print(path.get(i).toString() + " -> ");
 		}
+		System.out.print(path.get(path.size()-1));
 		return path;
 
 	}

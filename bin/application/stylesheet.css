@@ -15,3 +15,8 @@ node#A {
 node:clicked {
 	fill-color: red;
 }
+
+node:important {
+	fill-color: red;
+	size: 15px;
+}
