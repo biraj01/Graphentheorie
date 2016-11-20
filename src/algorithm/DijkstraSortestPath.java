@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import application.ReadGraph;
@@ -96,7 +97,18 @@ public class DijkstraSortestPath {
 	}
 
 	private void findMinimalDistance(Node node) {
-		Iterator<Node> nodes = node.getNeighborNodeIterator();
+	  Iterator<Node> nodes;
+	  if(graph.getAttribute("type").equals("undirected")){
+	    nodes = node.getNeighborNodeIterator();
+	  }else{
+	    Iterator<Edge> edges = node.getEachLeavingEdge().iterator();
+	    Set<Node> temp = new HashSet<>();
+	    while(edges.hasNext()){
+	      temp.add(edges.next().getTargetNode());
+	    }
+	    nodes = temp.iterator();
+	  }
+		
 		while (nodes.hasNext()) {
 				Node target = nodes.next();
 			if ((double) target.getAttribute("entfernung") > (double) node.getAttribute("entfernung")

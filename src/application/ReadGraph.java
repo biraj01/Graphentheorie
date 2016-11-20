@@ -122,6 +122,7 @@ public class ReadGraph {
 		//Iterator<String> vertexIt = vertex.iterator();
 		Iterator<String[]> edgeIt = edge.iterator();
 		if (typeofGraph.equals("directed")) {
+		  graph.addAttribute("type", "directed");
 			while (edgeIt.hasNext()) {
 				String[] arr = edgeIt.next();
 				graph.addEdge(arr.toString(), arr[0], arr[1], true);
@@ -130,6 +131,7 @@ public class ReadGraph {
 				node.addAttribute("ui.label", node.getId());
 			}
 		} else if (typeofGraph.equals("undirected")) {
+		  graph.addAttribute("type", "undirected");
 			while (edgeIt.hasNext()) {
 				String[] arr = edgeIt.next();
 				graph.addEdge(arr.toString(), arr[0], arr[1]);
@@ -139,6 +141,7 @@ public class ReadGraph {
 				node.addAttribute("ui.label", node.getId());
 			}
 		} else if (typeofGraph.equals("undirectedWeightedGraph")) {
+		  graph.addAttribute("type", "undirected");
 			while (edgeIt.hasNext()) {
 				String[] arr = edgeIt.next();
 				Edge edge = graph.addEdge(arr.toString(), arr[0], arr[1]);
@@ -149,6 +152,7 @@ public class ReadGraph {
 				node.addAttribute("ui.label", node.getId());
 			}
 		} else if (typeofGraph.equals("directedWeightedGraph")) {
+		  graph.addAttribute("type", "directed");
 			while (edgeIt.hasNext()) {
 				String[] arr = edgeIt.next();
 				Edge edge = graph.addEdge(arr.toString(), arr[0], arr[1], true);
