@@ -52,12 +52,6 @@ public class DijkstraSortestPathTest {
         gps.doSearch();
 
         assertEquals(testList, gps.getPath(vertexEnd));
-        try {
-            gf.saveGraph(g);
-            System.out.println("we did it");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
