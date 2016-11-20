@@ -20,10 +20,29 @@ public class DijkstraSortestPath {
 	private Graph graph;
 	private Node vertexStart;
 	private Node vertexEnd;
-	private Set<Node> settledNodes;
-	private Set<Node> unsettledNodes;
-	private int count;
-	Map<Node, Node> predecessoders;
+  private Set<Node> settledNodes;
+  private Set<Node> unsettledNodes;
+  private int count;
+  Map<Node, Node> predecessoders;
+	
+	
+	public Node getVertexStart() {
+    return vertexStart;
+  }
+
+  public void setVertexStart(Node vertexStart) {
+    this.vertexStart = vertexStart;
+  }
+
+  public Node getVertexEnd() {
+    return vertexEnd;
+  }
+
+  public void setVertexEnd(Node vertexEnd) {
+    this.vertexEnd = vertexEnd;
+  }
+
+  
 
 	public DijkstraSortestPath(Graph graph, String source, String target) {
 		this.graph = graph;
@@ -31,19 +50,6 @@ public class DijkstraSortestPath {
 		vertexEnd = graph.getNode(target);
 	}
 
-	public static void main(String[] args) {
-
-		ReadGraph gf = new ReadGraph();
-		File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3b.gka");
-		gf.initGraph(file); // initialize the graph
-		Graph g = gf.getGraph();
-		gf.zeichneGraph(file); // draw the graph
-		DijkstraSortestPath bf = new DijkstraSortestPath(g, "Hannover", "Paderborn");
-		bf.init(g);
-		bf.doSearch();
-		bf.getPath(bf.vertexEnd);
-
-	}
 
 	public void init(Graph graph) {
 
@@ -141,16 +147,30 @@ public class DijkstraSortestPath {
 		}
 		// Put it into the correct order
 		Collections.reverse(path);
-		System.out.println("Der kürzeste Pfad für dieses Graph ist: ");
+		System.out.println("Der kürzeste Pfad zwischen " + vertexStart + " und " + vertexEnd +   " ist: ");
 		for(int i = 0; i< path.size() - 1;i++){
 		  System.out.print(path.get(i).toString() + " -> ");
 		}
 		System.out.print(path.get(path.size()-1));
 		System.out.println("  über " + (path.size() ) + " kanten");
-		System.out.println((path.get(path.size()-1)).getAttribute("entfernung").toString());
+		System.out.println("Gesamte Pfad länge:  " + (path.get(path.size()-1)).getAttribute("entfernung").toString());
 		System.out.println("Anzahl Zugriff: " + count);
 		return path;
 
 	}
+	
+//public static void main(String[] args) {
+//
+//   ReadGraph gf = new ReadGraph();
+//   File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3b.gka");
+//   gf.initGraph(file); // initialize the graph
+//   Graph g = gf.getGraph();
+//   gf.zeichneGraph(file); // draw the graph
+//   DijkstraSortestPath bf = new DijkstraSortestPath(g, "Hannover", "Paderborn");
+//   bf.init(g);
+//   bf.doSearch();
+//   bf.getPath(bf.vertexEnd);
+//
+// }
 
 }
