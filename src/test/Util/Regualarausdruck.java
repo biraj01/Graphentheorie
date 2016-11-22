@@ -1,4 +1,4 @@
-package test;
+package test.Util;
 
 import static org.junit.Assert.fail;
 

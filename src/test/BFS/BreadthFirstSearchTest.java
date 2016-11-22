@@ -1,4 +1,4 @@
-package test;
+package test.BFS;
 
 import algorithm.BreadthFirst;
 import application.ReadGraph;

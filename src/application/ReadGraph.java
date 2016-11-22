@@ -36,6 +36,7 @@ public class ReadGraph {
 	private List<String[]> edge = new ArrayList<>();
 	private boolean errorinGraph = false;
 	private Graph graph ;
+	private String assertPath = "C:\\Users\\Biraj\\Desktop\\GKA_Praktikum\\GKA_Praktikum2\\asserts\\";
 
 	
 	public Graph getGraph() {
@@ -118,8 +119,7 @@ public class ReadGraph {
 	public void initGraph(File file){
 		getEdgesundVertex(file); // set edges and vertices for the graph
 		graph = new MultiGraph("graph");
-		graph.addAttribute("ui.stylesheet", "url('C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum2\\src\\application\\stylesheet.css')");
-		graph.addAttribute("ui.stylesheet", "url('C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\src\\application\\stylesheet.css')");
+		graph.addAttribute("ui.stylesheet", "url('C:\\Users\\Biraj\\Desktop\\GKA_Praktikum\\GKA_Praktikum2\\src\\application\\stylesheet.css')");
 		graph.setStrict(false);
 		graph.setAutoCreate(true);
 		//Iterator<String> vertexIt = vertex.iterator();
@@ -296,79 +296,27 @@ public class ReadGraph {
 	}
 
 	public void saveGraph(Graph g, String name, String auswahl) throws IOException {
-		switch (auswahl) {
-			case "directedWeighted":  saveDirectedWeightedGraph(g, name);
-				break;
-			case "directed":  saveDirectedGraph(g, name);
-				break;
-			case "undirectedWeighted":  saveUndirectedWeightedGraph(g, name);
-				break;
-			case "undirected":  saveUndirectedGraph(g, name);
-				break;
-		}
-	}
-
-	private void saveDirectedGraph(Graph g, String name) throws IOException{
 		List<String> lines = new LinkedList<>();
 		Node tmpNode;
 
-		Path file = Paths.get(name);
+		Path file = Paths.get(assertPath+name);
 
 		for ( Node n : g ) {
 			Iterator<Edge> edges = n.getEachLeavingEdge().iterator();
 			while(edges.hasNext()){
 				tmpNode = edges.next().getTargetNode();
-				lines.add(n + " -> " + tmpNode + ";");
-			}
-		}
-		Files.write(file, lines, Charset.forName("UTF-8"));
-	}
-
-	private void saveDirectedWeightedGraph(Graph g, String name) throws IOException{
-		List<String> lines = new LinkedList<>();
-		Node tmpNode;
-
-		Path file = Paths.get(name);
-
-		for ( Node n : g ) {
-			Iterator<Edge> edges = n.getEachLeavingEdge().iterator();
-			//lines.add(n + "--" + edges);
-			while(edges.hasNext()){
-				tmpNode = edges.next().getTargetNode();
-				lines.add(n + " -> " + tmpNode + " : " + intValue(n.getEdgeBetween(tmpNode).getAttribute("edgeLength")) + ";");
-			}
-		}
-		Files.write(file, lines, Charset.forName("UTF-8"));
-		//Files.write(file, lines, Charset.forName("UTF-8"), StandardOpenOption.APPEND);
-	}
-
-	private void saveUndirectedWeightedGraph(Graph g, String name) throws IOException{
-		List<String> lines = new LinkedList<>();
-		Node tmpNode;
-
-		Path file = Paths.get(name);
-
-		for ( Node n : g ) {
-			Iterator<Edge> edges = n.getEachEdge().iterator();
-			while(edges.hasNext()){
-				tmpNode = edges.next().getTargetNode();
-				lines.add(n + " -- " + tmpNode + ";");
-			}
-		}
-		Files.write(file, lines, Charset.forName("UTF-8"));
-	}
-
-	private void saveUndirectedGraph(Graph g, String name) throws IOException{
-		List<String> lines = new LinkedList<>();
-		Node tmpNode;
-
-		Path file = Paths.get(name);
-
-		for ( Node n : g ) {
-			Iterator<Edge> edges = n.getEachLeavingEdge().iterator();
-			while(edges.hasNext()){
-				tmpNode = edges.next().getTargetNode();
-				lines.add(n + " -- " + tmpNode + ";");
+				switch (auswahl) {
+					case "directedWeighted":  lines.add(n + " -> " + tmpNode + " : " +
+							intValue(n.getEdgeBetween(tmpNode).getAttribute("edgeLength")) + ";");
+						break;
+					case "directed":  lines.add(n + " -> " + tmpNode + ";");
+						break;
+					case "undirectedWeighted":  lines.add(n + " -- " + tmpNode + /*" : "
+							+ intValue(n.getEdgeBetween(tmpNode).getAttribute("edgeLength")) + */";");
+						break;
+					case "undirected":  lines.add(n + " -- " + tmpNode + ";");
+						break;
+				}
 			}
 		}
 		Files.write(file, lines, Charset.forName("UTF-8"));

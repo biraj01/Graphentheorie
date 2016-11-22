@@ -5,18 +5,21 @@ package algorithm;
 import application.ReadGraph;
 import org.graphstream.algorithm.generator.BaseGenerator;
 import org.graphstream.algorithm.generator.Generator;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.stream.Pipe;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by Marcel on 19.11.2016.
  */
-public class RandomEuclideanGenerator extends BaseGenerator implements Pipe {
+public class BigGenerator extends BaseGenerator implements Pipe {
+
     /**
      * Used to generate node names.
      */
@@ -32,27 +35,45 @@ public class RandomEuclideanGenerator extends BaseGenerator implements Pipe {
      * nodes. Since the coordinate system is defined between 0 and 1, the
      * threshold has to be set between these two bounds.
      */
-    protected double threshold = 0.5;
+    private double threshold = 0.45;
+
+    /**
+     * Minimum range for weighted edges
+     */
+    private int rangeMin = 0;
+
+    /**
+     * Maximum range for weighted edges
+     */
+    private int rangeMax = 200;
+
+    /**
+     * Maximum range for weighted edges
+     */
+    private int nodes = 10;
 
     /**
      * New random Euclidean graph generator. By default no attributes are added
-     * to nodes and edges. Dimension of the space is two.
+     * to nodes and edges. It is possible to make edge randomly directed.
+     * @param directed
+     *            If true the edges are directed.
+     * @param randomlyDirectedEdges
+     *            If true edge, are directed and the direction is chosen at
+     *            randomly.
      */
-    public RandomEuclideanGenerator() {
-        super();
-        initDimension(2);
+    public BigGenerator(boolean directed,
+                        boolean randomlyDirectedEdges) {
+        super(directed, randomlyDirectedEdges);
+        initDimension(dimension);
         setUseInternalGraph(true);
     }
 
+
     /**
      * New random Euclidean graph generator. By default no attributes are added
-     * to nodes and edges. You may also specify a dimension for the space.
-     *
-     * @param dimension
-     *            The dimension of the space for the graph. By default it is
-     *            two.
+     * to nodes and edges.
      */
-    public RandomEuclideanGenerator(int dimension) {
+    public BigGenerator() {
         super();
         initDimension(dimension);
         setUseInternalGraph(true);
@@ -72,15 +93,18 @@ public class RandomEuclideanGenerator extends BaseGenerator implements Pipe {
      *            If true edge, are directed and the direction is chosen at
      *            randomly.
      */
-    public RandomEuclideanGenerator(int dimension, boolean directed,
-                                    boolean randomlyDirectedEdges) {
+    public BigGenerator(int dimension, boolean directed,
+                        boolean randomlyDirectedEdges) {
         super(directed, randomlyDirectedEdges);
         initDimension(dimension);
         setUseInternalGraph(true);
     }
 
     /**
-     * New random Euclidean graph generator.
+     * New random Euclidean graph generator. By default no attributes are added
+     * to nodes and edges. It is possible to make edge randomly directed. You
+     * may also specify a dimension for the space. Also you can add a threshold,
+     * a minimum and maximum range of weighted edges.
      *
      * @param dimension
      *            The dimension of the space for the graph. By default it is
@@ -88,44 +112,36 @@ public class RandomEuclideanGenerator extends BaseGenerator implements Pipe {
      * @param directed
      *            If true the edges are directed.
      * @param randomlyDirectedEdges
-     *            It true, edges are directed and the direction is chosen at
-     *            random.
-     * @param nodeAttribute
-     *            put an attribute by that name on each node with a random
-     *            numeric value.
-     * @param edgeAttribute
-     *            put an attribute by that name on each edge with a random
-     *            numeric value.
+     *            If true edge, are directed and the direction is chosen at
+     *            randomly.
+     * @param threshold
+     *            The threshold for Random randomDirectedEdges
+     * @param rangeMin
+     *            Minimum range for weighted edges
+     * @param rangeMax
+     *            Maximum range for weighted edges
+     * @param nodes
+     *            Number of nodes to add
      */
-    public RandomEuclideanGenerator(int dimension, boolean directed,
-                                    boolean randomlyDirectedEdges, String nodeAttribute,
-                                    String edgeAttribute) {
-        super(directed, randomlyDirectedEdges, nodeAttribute, edgeAttribute);
+    public BigGenerator(int dimension, boolean directed, boolean randomlyDirectedEdges,
+                        double threshold, int rangeMin, int rangeMax, int nodes) {
+        super(directed, randomlyDirectedEdges);
+        this.threshold = threshold;
+        this.rangeMin = rangeMin;
+        this.rangeMax = rangeMax;
+        this.nodes = nodes;
         initDimension(dimension);
-        setUseInternalGraph(true);
+        setUseInternalGraph(true); // Funktion aus BaseGenerator
     }
 
 
-    public static void main(String[] args) {
-        ReadGraph gf = new ReadGraph();
-        Graph graph = new SingleGraph("random euclidean");
-        Generator gen = new RandomEuclideanGenerator(3, true, true, "test", "edgeLength");
-        gen.addSink(graph);
-        gen.begin();
-        for(int i=0; i<100; i++) {
-            gen.nextEvents();
-        }
-        gen.end();
-        graph.display(false);
 
-        try {
-            gf.saveGraph(graph, "BIG.txt", "directedWeighted");
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void initEvents(){
+        this.begin();
+        for(int i=0; i<nodes-1; i++) {
+            this.nextEvents();
         }
     }
-
-
 
     private void initDimension(int dimension) {
         this.dimension = dimension;
@@ -144,8 +160,26 @@ public class RandomEuclideanGenerator extends BaseGenerator implements Pipe {
             }
         } else
             System.err.println("dimension has to be higher that zero");
-
     }
+
+    public void initEdgeWeights(Graph g){
+        int rangeMin = getRangeMin();
+        int rangeMax = getRangeMax();
+
+        for (Node n : g) {
+            Iterator<Edge> edges = n.getEachLeavingEdge().iterator();
+            while(edges.hasNext()) {
+                Edge tmp = edges.next();
+
+                Random r = new Random();
+                double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+
+                tmp.setAttribute("edgeLength", randomValue);
+
+            }
+        }
+    }
+
 
     /**
      * Start the generator. A single node is added.
@@ -226,6 +260,31 @@ public class RandomEuclideanGenerator extends BaseGenerator implements Pipe {
         return Math.sqrt(d);
     }
 
+
+
+
+
+
+
+    //GETTER
+
+    public double getThreshold() {
+        return threshold;
+    }
+
+    public int getRangeMin() {
+        return rangeMin;
+    }
+
+    public int getRangeMax() {
+        return rangeMax;
+    }
+
+    public int getNodes() {
+        return nodes;
+    }
+
+    //SETTER
     /**
      * Set the threshold that defines whether or not a link is created between
      * to notes. Since the coordinate system is defined between 0 and 1, the
@@ -239,14 +298,95 @@ public class RandomEuclideanGenerator extends BaseGenerator implements Pipe {
             this.threshold = threshold;
     }
 
-    protected void nodeAttributeHandling(String nodeId, String key, Object val) {
+    public void setRangeMin(int rangeMin) {
+        this.rangeMin = rangeMin;
+    }
+
+    public void setRangeMax(int rangeMax) {
+        this.rangeMax = rangeMax;
+    }
+
+    public void setNodes(int nodes) {
+        this.nodes = nodes;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //Empty Methods
+
+
+    /*    public static void main(String[] args) {
+        ReadGraph gf = new ReadGraph();
+        Graph graph = new SingleGraph("random euclidean");
+        Generator gen = new BigGenerator(3, true, true, 0.45, 0, 200, 100);
+        gen.addSink(graph);
+        gen.begin();
+
+        for(int i=0; i<99; i++) {
+            gen.nextEvents();
+        }
+
+        initEdgeWeights(graph);
+
+        gen.end();
+        graph.display(false);
+
+        try {
+            gf.saveGraph(graph, "BIG.gka", "directedWeighted");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    /*protected void nodeAttributeHandling(String nodeId, String key, Object val) {
         if (key != null && key.matches("x|y|z") && val instanceof Float) {
             int i = ((int) key.charAt(0)) - (int) 'x';
 
             if (i < dimension)
                 internalGraph.getNode(nodeId).addAttribute(key, val);
         }
-    }
+    }*/
+
 
     public void edgeAttributeAdded(String sourceId, long timeId, String edgeId,
                                    String attribute, Object value) {
@@ -274,12 +414,12 @@ public class RandomEuclideanGenerator extends BaseGenerator implements Pipe {
 
     public void nodeAttributeAdded(String sourceId, long timeId, String nodeId,
                                    String attribute, Object value) {
-        nodeAttributeHandling(nodeId, attribute, value);
+        //nodeAttributeHandling(nodeId, attribute, value);
     }
 
     public void nodeAttributeChanged(String sourceId, long timeId,
                                      String nodeId, String attribute, Object oldValue, Object newValue) {
-        nodeAttributeHandling(nodeId, attribute, newValue);
+        //nodeAttributeHandling(nodeId, attribute, newValue);
     }
 
     public void nodeAttributeRemoved(String sourceId, long timeId,
