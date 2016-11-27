@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -33,19 +34,12 @@ public class DijkstraMethodTest {
         Graph g = gf.getGraph();
         Node vertexStart = g.getNode("Bremen");
         Node vertexEnd = g.getNode("Detmold");
-        LinkedList<Node> testList = new LinkedList<Node>();
-        testList.add(g.getNode("Bremen"));
-        testList.add(g.getNode("Hamburg"));
-        testList.add(g.getNode("Walsrode"));
-        testList.add(g.getNode("Hameln"));
-        testList.add(g.getNode("Detmold"));
+        String [] pathArr = {"Bremen","Hamburg","Walsrode","Hameln","Detmold"};
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
-
         dsp.init(g);
         dsp.doSearch();
-
-        dsp.getPath(vertexEnd);
-        assertEquals(testList, dsp.getPath(vertexEnd));
+        boolean equal = Arrays.equals(pathArr, dsp.getPath());
+        assertEquals(true, equal);
         System.out.println("########################################################");
     }
 
@@ -55,21 +49,14 @@ public class DijkstraMethodTest {
         gf.initGraph(file); // initialize the graph
         Graph g = gf.getGraph();
         Node vertexStart = g.getNode("Bremen");
-        Node vertexEnd = g.getNode("Detmold");
-        Node nullTest = g.getNode("Berlin");
+        Node vertexEnd = g.getNode("Berlin");
         LinkedList<Node> testList = new LinkedList<Node>();
-        testList.add(g.getNode("Bremen"));
-        testList.add(g.getNode("Hamburg"));
-        testList.add(g.getNode("Walsrode"));
-        testList.add(g.getNode("Hameln"));
-        testList.add(g.getNode("Detmold"));
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
-
         dsp.init(g);
         dsp.doSearch();
 
-        dsp.getPath(vertexEnd);
-        assertEquals(null, dsp.getPath(nullTest));
+        dsp.getPath();
+        assertEquals(null, dsp.getPath());
         System.out.println("########################################################");
     }
 

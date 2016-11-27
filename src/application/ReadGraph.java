@@ -119,7 +119,7 @@ public class ReadGraph {
 	public void initGraph(File file){
 		getEdgesundVertex(file); // set edges and vertices for the graph
 		graph = new MultiGraph("graph");
-		graph.addAttribute("ui.stylesheet", "url('C:\\Users\\Biraj\\Desktop\\GKA_Praktikum\\GKA_Praktikum2\\src\\application\\stylesheet.css')");
+		graph.addAttribute("ui.stylesheet", "url('C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\src\\application\\stylesheet.css')");
 		graph.setStrict(false);
 		graph.setAutoCreate(true);
 		//Iterator<String> vertexIt = vertex.iterator();

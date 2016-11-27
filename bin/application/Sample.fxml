@@ -10,7 +10,7 @@
          <buttons>
             <Button id="openbtn" fx:id="openbtn" mnemonicParsing="false" onAction="#open" text="Open" />
             <Button id="closebtn" fx:id="savebtn" mnemonicParsing="false" text="Save" />
-            <Button id="breadthfirstsbtn" fx:id="breadthfirstbtn" mnemonicParsing="false" text="Breadthfirst" />
+            <Button id="bigGeneratorbtn" fx:id="bigGeneratorbtn" mnemonicParsing="false" onAction="#bigGenerator" text="BigGenerator" />
          </buttons>
       </ButtonBar>
    </top>

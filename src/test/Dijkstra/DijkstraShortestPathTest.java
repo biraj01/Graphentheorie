@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import static junit.framework.TestCase.assertEquals;
@@ -42,7 +43,7 @@ public class DijkstraShortestPathTest {
 
         Node vertexStart = g.getNode("v4");
         Node vertexEnd = g.getNode("v4");
-        LinkedList<Node> testList = null;
+        String [] pathArr = null;
         //testList.add(g.getNode("v4"));
 
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
@@ -50,7 +51,7 @@ public class DijkstraShortestPathTest {
         dsp.init(g);
         dsp.doSearch();
 
-        assertEquals(testList, dsp.getPath(vertexEnd));
+        assertEquals(pathArr, dsp.getPath());
     }
 
     @Test
@@ -64,16 +65,12 @@ public class DijkstraShortestPathTest {
 
         Node vertexStart = g.getNode("v4");
         Node vertexEnd = g.getNode("v3");
-        LinkedList<Node> testList = new LinkedList<>();
-        testList.add(g.getNode("v4"));
-        testList.add(g.getNode("v3"));
-
+        String [] pathArr = {"v4", "v3"};
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
-
         dsp.init(g);
         dsp.doSearch();
-
-        assertEquals(testList, dsp.getPath(vertexEnd));
+        boolean equal = Arrays.equals(pathArr, dsp.getPath());
+        assertEquals(true, equal);
         assertEquals(dsp.getTotalLength(),2.0);
         System.out.println("########################################################");
 
@@ -92,19 +89,13 @@ public class DijkstraShortestPathTest {
 
         Node vertexStart = g.getNode("v4");
         Node vertexEnd = g.getNode("v10");
-        LinkedList<Node> testList = new LinkedList<Node>();
-        testList.add(g.getNode("v4"));
-        testList.add(g.getNode("v3"));
-        testList.add(g.getNode("v1"));
-        testList.add(g.getNode("v7"));
-        testList.add(g.getNode("v8"));
-        testList.add(g.getNode("v10"));
-
+        String [] pathArr = {"v4", "v3","v1","v7","v8","v10"};
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
 
         dsp.init(g);
         dsp.doSearch();
-        assertEquals(testList, dsp.getPath(vertexEnd));
+        boolean equal = Arrays.equals(pathArr, dsp.getPath());
+        assertEquals(true, equal);
         assertEquals(dsp.getTotalLength(), 28.0);
         System.out.println("########################################################");
     }
@@ -120,19 +111,12 @@ public class DijkstraShortestPathTest {
 
         Node vertexStart = g.getNode("Bremen");
         Node vertexEnd = g.getNode("Detmold");
-        LinkedList<Node> testList = new LinkedList<Node>();
-        testList.add(g.getNode("Bremen"));
-        testList.add(g.getNode("Hamburg"));
-        testList.add(g.getNode("Walsrode"));
-        testList.add(g.getNode("Hameln"));
-        testList.add(g.getNode("Detmold"));
-
+        String [] pathArr = {"Bremen", "Hamburg","Walsrode","Hameln","Detmold"};
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
-
         dsp.init(g);
         dsp.doSearch();
-
-        assertEquals(testList, dsp.getPath(vertexEnd));
+        boolean equal = Arrays.equals(pathArr, dsp.getPath());
+        assertEquals(true, equal);
         assertEquals(dsp.getTotalLength(), 389.0);
         System.out.println("########################################################");
     }
@@ -149,16 +133,12 @@ public class DijkstraShortestPathTest {
 
         Node vertexStart = g.getNode("Bremen");
         Node vertexEnd = g.getNode("Hamburg");
-        LinkedList<Node> testList = new LinkedList<Node>();
-        testList.add(g.getNode("Bremen"));
-        testList.add(g.getNode("Hamburg"));
-
+        String [] pathArr = {"Bremen", "Hamburg"};
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
-
         dsp.init(g);
         dsp.doSearch();
-
-        assertEquals(testList, dsp.getPath(vertexEnd));
+        boolean equal = Arrays.equals(pathArr, dsp.getPath());
+        assertEquals(true, equal);
         assertEquals(dsp.getTotalLength(), 127.0);
         System.out.println("########################################################");
     }

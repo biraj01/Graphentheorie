@@ -1,13 +1,20 @@
 package algorithm;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
+import application.ReadGraph;
 
 public class FloydWarshall {
 
 	private double[][] distancematrix;
-	private String[][] transismatrix;
+	private int [][] transismatrix;
 	private Graph g;
 	private boolean hasNegativeCycle;
 	private Node start;
@@ -38,11 +45,11 @@ public class FloydWarshall {
 		this.distancematrix = distanzmatrix;
 	}
 
-	public String[][] getTransismatrix() {
+	public int[][] getTransismatrix() {
 		return transismatrix;
 	}
 
-	public void setTransismatrix(String[][] transismatrix) {
+	public void setTransismatrix(int[][] transismatrix) {
 		this.transismatrix = transismatrix;
 	}
 
@@ -57,10 +64,11 @@ public class FloydWarshall {
 	private void initMatrix() {
 		int size = g.getNodeSet().size();
 		this.distancematrix = new double[size][size];
-		this.transismatrix = new String[size][size];
+		this.transismatrix = new int[size][size];
 		// initialise diagonal to zero and other to infinitive
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
+			  transismatrix[i][j] = -1;
 				count++;
 				if (i == j) {
 					distancematrix[i][j] = 0;
@@ -85,7 +93,7 @@ public class FloydWarshall {
 				for (int w = 0; w < g.getNodeSet().size(); w++) {
 					if (distancematrix[v][w] > distancematrix[v][i] + distancematrix[i][w]) {
 						distancematrix[v][w] = distancematrix[v][i] + distancematrix[i][w];
-						transismatrix[v][w] = g.getNode(i).getId();
+						transismatrix[v][w] = i;
 						count++;
 					}
 				}
@@ -125,5 +133,22 @@ public class FloydWarshall {
 		System.out.println("Anzahl Zugriff: " + count);
 	}
 	
+	
+	public String [] constructPath(){
+	  List<String> path = new ArrayList<>();
+	  if(!hasNegativeCycle){
+	    path.add(end.getId());
+	    int stop = end.getIndex(); 
+	    while(transismatrix[start.getIndex()][stop] != -1){
+	      int nodeId = transismatrix[start.getIndex()][stop];
+	      path.add(g.getNode(nodeId).getId());
+	      stop = nodeId;
+	    }
+	    path.add(start.getId());
+	  }
+	  Collections.reverse(path);
+	  String [] arr = path.toArray(new String[path.size()]);
+	  return arr;
+	}
 	
 }
