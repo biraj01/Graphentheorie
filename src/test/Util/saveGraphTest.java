@@ -1,16 +1,13 @@
 package test.Util;
 
+
 import algorithm.BigGenerator;
 import application.ReadGraph;
-import org.graphstream.algorithm.generator.Generator;
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 
 import static junit.framework.TestCase.assertEquals;
@@ -94,20 +91,13 @@ public class saveGraphTest {
     }
 
     @Test
-    public void testBig() throws IOException {
+    public void testTrueBig() throws IOException {
+        Graph graph;
+        BigGenerator tb = new BigGenerator(100, 2500, true, 0, 200);
 
-        Graph graph = new SingleGraph("random euclidean");
-        // dimension, directed?, randomDirection?, threshold, rangeMin, rangeMax, nodes
-        BigGenerator bg = new BigGenerator(3, true, true, 0.45, 0, 200, 100);
+        graph = tb.getGraph();
 
-        bg.addSink(graph);
-
-        bg.initEvents();
-        bg.initEdgeWeights(graph);
-
-        bg.end();
         graph.display(false);
-        gf.saveGraph(graph, "saveBig.gka", "directedWeighted");
-
+        gf.saveGraph(graph, "saveTrueBig.gka", "directedWeighted");
     }
 }
