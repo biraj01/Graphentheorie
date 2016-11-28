@@ -1,5 +1,6 @@
 package test.Compare;
 
+import algorithm.BigGenerator;
 import algorithm.DijkstraShortestPath;
 import algorithm.FloydWarshall;
 import application.ReadGraph;
@@ -26,7 +27,7 @@ public class CompareAlgorithmTest {
     public void setUp() {
 
         gf = new ReadGraph();
-        File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3b.gka");
+        File file = new File("C:\\Users\\Marcel\\Documents\\Graphentheorie\\asserts\\graph3b.gka");
         gf.initGraph(file);
         gf.zeichneGraph(file);
     }
@@ -34,7 +35,7 @@ public class CompareAlgorithmTest {
     @Test
     public void testCompareDijkstraFloydWeightedGraph1() {
         gf = new ReadGraph();
-        File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3b.gka");
+        File file = new File("C:\\Users\\Marcel\\Documents\\Graphentheorie\\asserts\\graph3b.gka");
         gf.initGraph(file); // initialize the graph
         Graph g = gf.getGraph();
         gf.zeichneGraph(file); // draw the graph
@@ -55,7 +56,7 @@ public class CompareAlgorithmTest {
     @Test
     public void testCompareDijkstraFloydWeightedGraph2() {
         ReadGraph gf = new ReadGraph();
-        File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3b.gka");
+        File file = new File("C:\\Users\\Marcel\\Documents\\Graphentheorie\\asserts\\graph3b.gka");
         gf.initGraph(file); // initialize the graph
         Graph g = gf.getGraph();
         System.out.println("Vergleich Dijkstra und FloydWarshall für Graph3");
@@ -75,14 +76,14 @@ public class CompareAlgorithmTest {
     public void testBigGraphCompareDijkstraAndFloydWarshallTest() throws IOException {
         DijkstraShortestPath dsp;
 
-        File file = new File("C:\\Users\\Biraj\\Desktop\\GKA_Praktikum\\GKA_Praktikum2\\asserts\\BIG.gka");
+        File file = new File("C:\\Users\\Marcel\\Documents\\Graphentheorie\\asserts\\BIG.gka");
         gf.initGraph(file); // initialize the graph
         Graph g = gf.getGraph();
 
 
-        Node vertexStart = g.getNode("8");
-        Node vertexEnd = g.getNode("40");
-        String [] pathArr = {"8","63","54","81","88","34","2","40"};
+        Node vertexStart = g.getNode("5");
+        Node vertexEnd = g.getNode("43");
+        String [] pathArr = {"5","57","81","55","43"};
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
         dsp.init(g);
         dsp.doSearch();
@@ -93,11 +94,11 @@ public class CompareAlgorithmTest {
 
 
         System.out.println("FloydWarshall für BIG");
-        FloydWarshall fw = new FloydWarshall(g, "8", "40");
+        FloydWarshall fw = new FloydWarshall(g, "5", "43");
         fw.updateMatrix();
         fw.outputDistance();
 
-        assertEquals(75.0, fw.getPathLength());
+        assertEquals(45.0, fw.getPathLength());
         System.out.println("########################################################");
         assertEquals(dsp.getTotalLength(), fw.getPathLength());
     }

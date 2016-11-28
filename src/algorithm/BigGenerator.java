@@ -117,8 +117,6 @@ public class BigGenerator {
     }
 
 
-
-
     public boolean isDirected() {
         return directed;
     }
@@ -142,4 +140,6 @@ public class BigGenerator {
     public int getRangeMax() {
         return rangeMax;
     }
+
+
 }
