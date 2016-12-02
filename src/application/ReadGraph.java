@@ -36,7 +36,7 @@ public class ReadGraph {
 	private List<String[]> edge = new ArrayList<>();
 	private boolean errorinGraph = false;
 	private Graph graph ;
-	private String assertPath = "C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\";
+	private String assertPath = "C:\\Users\\Biraj\\Desktop\\GKA_Praktikum\\GKA_Praktikum2\\asserts\\";
 
 	
 	public Graph getGraph() {

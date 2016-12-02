@@ -102,7 +102,7 @@ public class FloydWarshallTest {
         System.out.println("##############################");
         fw1.outputTransMatrix();
         assertEquals(true, equal);
-        double epsilon = 0.000001;
+        double epsilon = 0000001;
         boolean lengthEqual = false;
         if (Math.abs(fw1.getPathLength() - 11.0) < epsilon){
           lengthEqual = true;

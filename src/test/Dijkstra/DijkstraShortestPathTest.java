@@ -97,7 +97,7 @@ public class DijkstraShortestPathTest {
         dsp.doSearch();
         boolean equal = Arrays.equals(pathArr, dsp.getPath());
         assertEquals(true, equal);
-        double epsilon = 0.000001;
+        double epsilon = 0000001;
         boolean lengthEqual = false;
         if (Math.abs(dsp.getTotalLength() - 28.0) < epsilon){
           lengthEqual = true;
@@ -123,7 +123,7 @@ public class DijkstraShortestPathTest {
         dsp.doSearch();
         boolean equal = Arrays.equals(pathArr, dsp.getPath());
         assertEquals(true, equal);
-        double epsilon = 0.000001;
+        double epsilon = 0000001;
         boolean lengthEqual = false;
         if (Math.abs(dsp.getTotalLength() - 389.0) < epsilon){
           lengthEqual = true;
@@ -150,7 +150,7 @@ public class DijkstraShortestPathTest {
         dsp.doSearch();
         boolean equal = Arrays.equals(pathArr, dsp.getPath());
         assertEquals(true, equal);
-        double epsilon = 0.000001;
+        double epsilon = 0000001;
         boolean lengthEqual = false;
         if (Math.abs(dsp.getTotalLength() - 127.0) < epsilon){
           lengthEqual = true;

@@ -1,11 +1,15 @@
 package algorithm;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
+import application.ReadGraph;
 
 public class FloydWarshall {
 
@@ -134,11 +138,11 @@ public class FloydWarshall {
 	  List<String> path = new ArrayList<>();
 	  if(!hasNegativeCycle){
 	    path.add(end.getId());
-	    int temp = end.getIndex(); 
-	    while(transismatrix[start.getIndex()][temp] != -1){
-	      int nodeId = transismatrix[start.getIndex()][temp];
+	    int stop = end.getIndex(); 
+	    while(transismatrix[start.getIndex()][stop] != -1){
+	      int nodeId = transismatrix[start.getIndex()][stop];
 	      path.add(g.getNode(nodeId).getId());
-	      temp = nodeId;
+	      stop = nodeId;
 	    }
 	    path.add(start.getId());
 	  }

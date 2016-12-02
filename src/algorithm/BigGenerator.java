@@ -71,16 +71,16 @@ public class BigGenerator {
         while(edgeCount<edges) {
             Random r = new Random();
 
-            Node randomNode1 = graph.getNode(intValue((vertices) * r.nextDouble()));
-            Node randomNode2 = graph.getNode(intValue((vertices) * r.nextDouble()));
+            Node n1 = graph.getNode(intValue((vertices) * r.nextDouble()));
+            Node n2 = graph.getNode(intValue((vertices) * r.nextDouble()));
             if (exitCount < edges*vertices) {
-                if (!(randomNode1.getId().equals(randomNode2.getId())) && !(randomNode1.hasEdgeBetween(randomNode2))) {
+                if (!(n1.getId().equals(n2.getId())) && !(n1.hasEdgeBetween(n2) || n2.hasEdgeBetween(n1))) {
                     exitCount = 0;
                     if (isDirected()) {
-                        graph.addEdge(randomNode1.getId() + "-" + randomNode2.getId(), randomNode1.getId(), randomNode2.getId(), true);
+                        graph.addEdge(n1.getId() + "-" + n2.getId(), n1.getId(), n2.getId(), true);
                         edgeCount++;
                     } else {
-                        graph.addEdge(randomNode1.getId() + "-" + randomNode2.getId(), randomNode1.getId(), randomNode2.getId());
+                        graph.addEdge(n1.getId() + "-" + n2.getId(), n1.getId(), n2.getId());
                         edgeCount++;
                     }
                 } else {
@@ -92,6 +92,11 @@ public class BigGenerator {
         }
     }
 
+    private boolean randomBoolean() {
+        Random r = new Random();
+        boolean randomBoolean = r.nextBoolean();
+        return randomBoolean;
+    }
 
     public void initEdgeWeights(){
         int rangeMin = getRangeMin();

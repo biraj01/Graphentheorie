@@ -25,69 +25,69 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
 public class SampleController {
-	
-	
-	  	@FXML
-	    private Button openbtn;
+  
+  
+      @FXML
+      private Button openbtn;
 
-	    @FXML
-	    private Button savebtn;
+      @FXML
+      private Button savebtn;
 
-	    @FXML
-	    private Button bigGeneratorbtn;
-	    
-	   
-	    
-	    @FXML
-	    public void open(){
-	    	openbtn.setOnAction(new EventHandler<ActionEvent>() {
-				
-				@Override
-				public void handle(ActionEvent event) {
-					FileChooser chooser = new FileChooser();
-					chooser.setTitle("Open .gka file");
-					File choosedFile = chooser.showOpenDialog(null);
-					ReadGraph graph = new ReadGraph();
-					graph.zeichneGraph(choosedFile);
-				}
-				
-			});
-			
-	    	}
+      @FXML
+      private Button bigGeneratorbtn;
+      
+     
+      
+      @FXML
+      public void open(){
+        openbtn.setOnAction(new EventHandler<ActionEvent>() {
+        
+        @Override
+        public void handle(ActionEvent event) {
+          FileChooser chooser = new FileChooser();
+          chooser.setTitle("Open .gka file");
+          File choosedFile = chooser.showOpenDialog(null);
+          ReadGraph graph = new ReadGraph();
+          graph.zeichneGraph(choosedFile);
+        }
+        
+      });
+      
+        }
 
-		@FXML
-		public void save(){
-			savebtn.setOnAction(new EventHandler<ActionEvent>() {
+    @FXML
+    public void save(){
+      savebtn.setOnAction(new EventHandler<ActionEvent>() {
 
-				@Override
-				public void handle(ActionEvent event) {
-				}});
+        @Override
+        public void handle(ActionEvent event) {
+        }});
 
-	}
-		@FXML
-		public void bigGenerator(){
-			bigGeneratorbtn.setOnAction(new EventHandler<ActionEvent>() {
+  }
+    @FXML
+    public void bigGenerator(){
+      bigGeneratorbtn.setOnAction(new EventHandler<ActionEvent>() {
 
-				@Override
-				public void handle(ActionEvent event) {
-					ReadGraph gf = new ReadGraph();
-	        Graph graph;
-	        BigGenerator tb = new BigGenerator(100, 50, true, 0, 200);
+        @Override
+        public void handle(ActionEvent event) {
+          ReadGraph gf = new ReadGraph();
+          Graph graph;
+          BigGenerator tb = new BigGenerator(100, 250, true, 0, 200);
 
-	        graph = tb.getGraph();
-	        
-	        graph.display(true);
+          graph = tb.getGraph();
+          
+          graph.display(true);
 
-					try {
-					  gf.saveGraph(graph, "buttonBig.gka", "directedWeighted");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					//File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\buttonBig.gka");
-					//gf.zeichneGraph(file);
-				}});
+          try {
+            gf.saveGraph(graph, "buttonBig.gka", "directedWeighted");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          //File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\buttonBig.gka");
+          //gf.zeichneGraph(file);
+        }});
 
-		}
-	    
-	
+    }
+      
+  
 }

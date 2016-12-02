@@ -47,7 +47,7 @@ public class CompareAlgorithmTest {
         System.out.println("Vergleich Dijkstra und FloydWarshall für Graph3");
         boolean equal = Arrays.equals(pathArr, dsp.getPath());
         assertEquals(true, equal);
-        double epsilon = 0.000001;
+        double epsilon = 0000001;
         boolean lengthEqual = false;
         if (Math.abs(dsp.getTotalLength() - 481.0) < epsilon){
           lengthEqual = true;
@@ -72,7 +72,7 @@ public class CompareAlgorithmTest {
         boolean equals = Arrays.equals(pathArr, fw.constructPath());
         assertEquals(true, equals);
         
-        double epsilon = 0.000001;
+        double epsilon = 0000001;
         boolean lengthEqual = false;
         if (Math.abs(fw.getPathLength() - 481.0) < epsilon){
           lengthEqual = true;
@@ -106,7 +106,7 @@ public class CompareAlgorithmTest {
         fw.updateMatrix();
         fw.outputDistance();
         
-        double epsilon = 0.000001;
+        double epsilon = 0000001;
         boolean lengthEqual = false;
         if (Math.abs(fw.getPathLength() - 45.0) < epsilon){
           lengthEqual = true;
