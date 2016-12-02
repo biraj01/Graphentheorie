@@ -71,20 +71,20 @@ public class SampleController {
 				@Override
 				public void handle(ActionEvent event) {
 					ReadGraph gf = new ReadGraph();
-					Graph graph = new SingleGraph("random euclidean");
-					// dimension, directed?, randomDirection?, threshold, rangeMin, rangeMax, nodes
-					algorithm.BigGenerator bg = new BigGenerator(3, true, true, 0.45, 0, 200, 100);
-					bg.addSink(graph);
-					bg.initEvents();
-					bg.initEdgeWeights(graph);
+	        Graph graph;
+	        BigGenerator tb = new BigGenerator(100, 50, true, 0, 200);
 
-					bg.end();
-					graph.display(false);
+	        graph = tb.getGraph();
+	        
+	        graph.display(true);
+
 					try {
-						gf.saveGraph(graph, "buttonBig.gka", "directedWeighted");
+					  gf.saveGraph(graph, "buttonBig.gka", "directedWeighted");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					//File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\buttonBig.gka");
+					//gf.zeichneGraph(file);
 				}});
 
 		}

@@ -24,7 +24,6 @@ public class FloydWarshallTest {
     public void setUp() {
 
         gf = new ReadGraph();
-        // File file = new
         //File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum2\\asserts\\graph11.gka");
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph11.gka");
         gf.initGraph(file);
@@ -32,19 +31,13 @@ public class FloydWarshallTest {
     }
 
     @Test
-    public void testRightOutputDirectedWeightedGraph2() {
+    public void testDirectedWeightedGraph2() {
         ReadGraph gf = new ReadGraph();
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph10c.gka");
         gf.initGraph(file); // initialize the graph
         Graph g = gf.getGraph();
         gf.zeichneGraph(file); // draw the graph
-        // FloydWarshall fw = new FloydWarshall(g);
-        // fw.updateMatrix();
-        // Give all the shortest distance in the matrix
-        // fw.output();
         System.out.println();
-        // fw.outputTransMatrix(); //hier fehlt nun sinnvoll ausgabe von der
-        // transmatrix damit man der Weg zurückverfolgen kann
         double inf = Double.POSITIVE_INFINITY;
         double[][] ergMatrix = { { 0.0, 4.0, 2.0, 3.0 }, { 0.0, 4.0, 2.0, 3.0 }, { 0.0, 4.0, 2.0, 3.0 },
                 { 0.0, 4.0, 2.0, 3.0 } };
@@ -73,19 +66,13 @@ public class FloydWarshallTest {
     }
 
     @Test
-    public void testRightOutputDirectedWeightedGraph1() {
+    public void testDirectedWeightedGraph1() {
         ReadGraph gf = new ReadGraph();
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph11.gka");
         gf.initGraph(file); // initialize the graph
         Graph g = gf.getGraph();
         gf.zeichneGraph(file); // draw the graph
-        // FloydWarshall fw = new FloydWarshall(g);
-        // fw.updateMatrix();
-        // Give all the shortest distance in the matrix
-        // fw.output();
         System.out.println();
-        // fw.outputTransMatrix(); //hier fehlt nun sinnvoll ausgabe von der
-        // transmatrix damit man der Weg zurückverfolgen kann
         double inf = Double.POSITIVE_INFINITY;
         double[][] ergMatrix = { { 0.0, 5.0, 6.0, 8.0, 18.0, 11.0, 12.0 }, { inf, 0.0, 1.0, 3.0, 13.0, 6.0, 7.0 },
                 { inf, inf, 0.0, 2.0, 12.0, 5.0, 6.0 }, { inf, inf, inf, 0.0, 10.0, 3.0, 4.0 },
@@ -115,7 +102,13 @@ public class FloydWarshallTest {
         System.out.println("##############################");
         fw1.outputTransMatrix();
         assertEquals(true, equal);
-        assertEquals(11.0, fw1.getPathLength());
+        double epsilon = 0.000001;
+        boolean lengthEqual = false;
+        if (Math.abs(fw1.getPathLength() - 11.0) < epsilon){
+          lengthEqual = true;
+        }
+        assertEquals(true,lengthEqual);
+     //   assertEquals(11.0, fw1.getPathLength());
 
     }
 

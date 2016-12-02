@@ -24,7 +24,6 @@ public class DijkstraShortestPathTest {
     public void setUp() {
 
         gf = new ReadGraph();
-        // File file = new
         // File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum2\\asserts\\graph10b.gka");
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph10b.gka");
         gf.initGraph(file);
@@ -35,7 +34,6 @@ public class DijkstraShortestPathTest {
     @Test
     public void testRightOutputDirectedWeightedGraph1() {
         gf = new ReadGraph();
-        // File file = new
         // File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum2\\asserts\\graph10b.gka");
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph10b.gka");
         gf.initGraph(file); // initialize the graph
@@ -44,7 +42,6 @@ public class DijkstraShortestPathTest {
         Node vertexStart = g.getNode("v4");
         Node vertexEnd = g.getNode("v4");
         String [] pathArr = null;
-        //testList.add(g.getNode("v4"));
 
         dsp = new DijkstraShortestPath(g, vertexStart.getId(), vertexEnd.getId());
 
@@ -57,7 +54,6 @@ public class DijkstraShortestPathTest {
     @Test
     public void testRightOutputDirectedWeightedGraph2() {
         gf = new ReadGraph();
-        // File file = new
         // File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum2\\asserts\\graph10b.gka");
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph10b.gka");
         gf.initGraph(file); // initialize the graph
@@ -71,7 +67,13 @@ public class DijkstraShortestPathTest {
         dsp.doSearch();
         boolean equal = Arrays.equals(pathArr, dsp.getPath());
         assertEquals(true, equal);
-        assertEquals(dsp.getTotalLength(),2.0);
+        double epsilon = 0.000001;
+        boolean lengthEqual = false;
+        if (Math.abs(dsp.getTotalLength() - 2.0) < epsilon){
+          lengthEqual = true;
+        }
+        assertEquals(true,lengthEqual);
+        //assertEquals(dsp.getTotalLength(),2.0);
         System.out.println("########################################################");
 
     }
@@ -81,7 +83,6 @@ public class DijkstraShortestPathTest {
     @Test
     public void testRightOutputDirectedWeightedGraph3() {
         gf = new ReadGraph();
-        // File file = new
         // File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum2\\asserts\\graph10b.gka");
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph10b.gka");
         gf.initGraph(file); // initialize the graph
@@ -96,14 +97,19 @@ public class DijkstraShortestPathTest {
         dsp.doSearch();
         boolean equal = Arrays.equals(pathArr, dsp.getPath());
         assertEquals(true, equal);
-        assertEquals(dsp.getTotalLength(), 28.0);
+        double epsilon = 0.000001;
+        boolean lengthEqual = false;
+        if (Math.abs(dsp.getTotalLength() - 28.0) < epsilon){
+          lengthEqual = true;
+        }
+        assertEquals(true,lengthEqual);
+        //assertEquals(dsp.getTotalLength(), 28.0);
         System.out.println("########################################################");
     }
 
     @Test
     public void testRightOutputUndirectedWeightedGraph1() {
         gf = new ReadGraph();
-        // File file = new
         // File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum2\\asserts\\graph3.gka");
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3.gka");
         gf.initGraph(file); // initialize the graph
@@ -117,7 +123,13 @@ public class DijkstraShortestPathTest {
         dsp.doSearch();
         boolean equal = Arrays.equals(pathArr, dsp.getPath());
         assertEquals(true, equal);
-        assertEquals(dsp.getTotalLength(), 389.0);
+        double epsilon = 0.000001;
+        boolean lengthEqual = false;
+        if (Math.abs(dsp.getTotalLength() - 389.0) < epsilon){
+          lengthEqual = true;
+        }
+        assertEquals(true,lengthEqual);
+        //assertEquals(dsp.getTotalLength(), 389.0);
         System.out.println("########################################################");
     }
 
@@ -125,7 +137,6 @@ public class DijkstraShortestPathTest {
     @Test
     public void testRightOutputUndirectedWeightedGraph2() {
         gf = new ReadGraph();
-        // File file = new
         // File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum2\\asserts\\graph3.gka");
         File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3.gka");
         gf.initGraph(file); // initialize the graph
@@ -139,7 +150,13 @@ public class DijkstraShortestPathTest {
         dsp.doSearch();
         boolean equal = Arrays.equals(pathArr, dsp.getPath());
         assertEquals(true, equal);
-        assertEquals(dsp.getTotalLength(), 127.0);
+        double epsilon = 0.000001;
+        boolean lengthEqual = false;
+        if (Math.abs(dsp.getTotalLength() - 127.0) < epsilon){
+          lengthEqual = true;
+        }
+        assertEquals(true,lengthEqual);
+        //assertEquals(dsp.getTotalLength(), 127.0);
         System.out.println("########################################################");
     }
 

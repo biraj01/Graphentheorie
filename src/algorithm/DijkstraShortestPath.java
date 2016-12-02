@@ -1,6 +1,5 @@
 package algorithm;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +12,6 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
-import application.ReadGraph;
 
 public class DijkstraShortestPath {
 
@@ -60,7 +58,6 @@ public class DijkstraShortestPath {
   }
 
   public void init(Graph graph) {
-
     Iterator<Node> nodeIt = graph.getNodeIterator();
     while (nodeIt.hasNext()) {
       count++;
@@ -74,7 +71,7 @@ public class DijkstraShortestPath {
         n.setAttribute("entfernung", Double.POSITIVE_INFINITY);
         n.setAttribute("vorgaenger", "Undefined");
         // n.setAttribute("ok", false);
-        count += 3;
+        count += 2;
       }
     }
 
