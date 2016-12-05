@@ -1,11 +1,7 @@
 package algorithm;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -28,7 +24,7 @@ public class BreadthFirst {
 	public static void main(String [] args){
 		
 		ReadGraph  gf = new ReadGraph();
-        File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph3.gka");
+        File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum\\asserts\\graph3.gka");
         gf.initGraph(file);	//initialize the graph
        	Graph g =  gf.getGraph();
         gf.zeichneGraph(file); //draw the graph
@@ -38,6 +34,8 @@ public class BreadthFirst {
 	}
 
 	public String doSearch() {
+		//List<List<Node>> allPaths = new ArrayList<>();
+		String ergPath = "Kein Ergebnis.";
 
 		if (graph != null && !vertexStart.equals(vertexEnd)) {
 			Queue<Node> queue = new LinkedList<>();
@@ -62,21 +60,25 @@ public class BreadthFirst {
 				}
 			}
 			if (queue.contains(vertexEnd)) { // if queue contains the target vertex
-				Node current = vertexEnd;
-				String path = "";
-
-				int countEdges = 0;
-
-				while (!current.equals(vertexStart)) {
-					path = " --> " + current.toString() + path;
-					current = map.get(current);
-					countEdges++;
-				}
-				return "Der Kurzeste Weg von " + vertexStart.toString() + " nach " + vertexEnd.toString() + " ist:\n"
-						+ vertexStart.toString() + path + "\n" + "Über " + countEdges + " Kante(n).";
+				ergPath = getPath(map);
 			}
 		}
-		return "Kein Ergebnis.";
+		return ergPath;
 	}
 
+
+	private String getPath(Map<Node, Node> map){
+		Node current = vertexEnd;
+		String path = "";
+
+		int countEdges = 0;
+
+		while (!current.equals(vertexStart)) {
+			path = " --> " + current.toString() + path;
+			current = map.get(current);
+			countEdges++;
+		}
+		return "Der Kurzeste Weg von " + vertexStart.toString() + " nach " + vertexEnd.toString() + " ist:\n"
+				+ vertexStart.toString() + path + "\n" + "Über " + countEdges + " Kante(n).";
+	}
 }
