@@ -72,14 +72,22 @@ public class SampleController {
         public void handle(ActionEvent event) {
           ReadGraph gf = new ReadGraph();
           Graph graph;
-          BigGenerator tb = new BigGenerator(100, 250, true, 0, 200);
+          BigGenerator tb = new BigGenerator(50, 800, "s", "t", true, 200, 300);
 
           graph = tb.getGraph();
           
           graph.display(true);
 
           try {
-            gf.saveGraph(graph, "buttonBig.gka", "directedWeighted");
+              //https://de.wikipedia.org/wiki/Flüsse_und_Schnitte_in_Netzwerken
+              //Netzwerk
+              //Ein Netzwerk (engl. network) N = ( G , u , s , t ) {\displaystyle N=(G,u,s,t)} N=(G,u,s,t)
+              // besteht aus einem gerichteten Graphen mit zwei ausgezeichneten Knoten,
+              // einer Quelle s und einer Senke t
+              // t aus V, sowie einer Kapazitätsfunktion, die jeder Kante e ∈ E eine nichtnegative Kapazität zuweist,
+              // e ↦ u ( e ). Hat die Kapazitätsfunktion ausschließlich ganzzahlige Werte, so existiert eine maximale
+              // Flussfunktion (siehe folgende Definition), die ebenfalls nur ganzzahlige Werte hat.
+            gf.saveGraph(graph, "BigNet_02_MarcelLange_BirajDhungel.gka", "directedWeighted");
           } catch (IOException e) {
             e.printStackTrace();
           }
