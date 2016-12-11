@@ -26,17 +26,20 @@ public class EdmondsKarp {
         this.source = graph.getNode(s).getIndex();
         this.target = graph.getNode(t).getIndex();
 
+        initMatrizen();
+        //erg = edmondsKarp(source, target);
+    }
+
+    public double findMaxFlow(){
+        erg = edmondsKarp(source, target);
+        return erg;
+    }
+
+    private void initMatrizen() {
         SIZE = graph.getNodeSet().size();
         residualMatrix = new double[SIZE][SIZE];
         capacityMatrix = new double[SIZE][SIZE];
-
-        initMatrizen();
-
-        erg = edmondsKarp(source, target);
-    }
-
-
-    private void initMatrizen() {
+        flowMatrix = new double[SIZE][SIZE];
         // initialise with MIN_VALUE
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -68,11 +71,9 @@ public class EdmondsKarp {
      */
     public double edmondsKarp(int s, int t) {
         double maxFlow = 0.0; //initial flow to zero
-        int size = graph.getNodeSet().size();
-        flowMatrix = new double[size][size];
 
         while (true) {
-            double foundCapacity = bfs(s, t, flowMatrix);
+            double foundCapacity = bfs(s, t);
             if (foundCapacity == 0.0) {
                 break;
             }
@@ -94,15 +95,14 @@ public class EdmondsKarp {
     }
 
 
-    private double bfs(int s, int t, double[][] flowMatrix) {
-        int size = graph.getNodeSet().size();
-        parentTable = new int[size];
+    public double bfs(int s, int t) {
+        parentTable = new int[SIZE];
 
-        for (int u = 0; u < size; u++) {
+        for (int u = 0; u < SIZE; u++) {
             parentTable[u] = -1;
         }
         parentTable[s] = -2; //make sure source is not rediscovered
-        double[] capacityOfFoundPath = new double[size];
+        double[] capacityOfFoundPath = new double[SIZE];
         capacityOfFoundPath[s] = Double.MAX_VALUE;
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(s);
@@ -133,8 +133,8 @@ public class EdmondsKarp {
 
     public static void main(String[] args) {
         ReadGraph gf = new ReadGraph();
-        //File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum\\asserts\\networkTest.gka");
-        File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum\\asserts\\networkTest3.gka");
+        File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum\\asserts\\networkTest.gka");
+        //File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum\\asserts\\networkTest3.gka");
         gf.initGraph(file);    //initialize the graph
         Graph graph = gf.getGraph();
         //gf.zeichneGraph(file); //draw the graph

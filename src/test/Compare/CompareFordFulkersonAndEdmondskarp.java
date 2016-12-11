@@ -30,6 +30,7 @@ public class CompareFordFulkersonAndEdmondskarp {
 
         final long timeStart = System.nanoTime();
         EdmondsKarp ek = new EdmondsKarp(graph, "q", "s");
+        ek.findMaxFlow();
         final long timeEnd = System.nanoTime();
         //final long timeStart = System.currentTimeMillis();
 
@@ -63,6 +64,7 @@ public class CompareFordFulkersonAndEdmondskarp {
 
         final long timeStart = System.nanoTime();
         EdmondsKarp ek = new EdmondsKarp(graph, "q", "s");
+        ek.findMaxFlow();
         final long timeEnd = System.nanoTime();
         //final long timeStart = System.currentTimeMillis();
 

@@ -28,6 +28,7 @@ public class EdmondsKarpTest {
         gf.initGraph(file); // initialize the graph
         Graph graph = gf.getGraph();
         EdmondsKarp ek = new EdmondsKarp(graph, "0", "5");
+        ek.findMaxFlow();
 
         assertEquals(23.0, ek.getMaximumFlow());
     }
@@ -38,6 +39,7 @@ public class EdmondsKarpTest {
         gf.initGraph(file); // initialize the graph
         Graph graph = gf.getGraph();
         EdmondsKarp ek = new EdmondsKarp(graph, "s", "t");
+        ek.findMaxFlow();
 
         assertEquals(9.0, ek.getMaximumFlow());
     }
@@ -48,6 +50,7 @@ public class EdmondsKarpTest {
         gf.initGraph(file); // initialize the graph
         Graph graph = gf.getGraph();
         EdmondsKarp ek = new EdmondsKarp(graph, "s", "t");
+        ek.findMaxFlow();
 
         assertEquals(19.0, ek.getMaximumFlow());
     }
@@ -60,10 +63,23 @@ public class EdmondsKarpTest {
 
         final long timeStart = System.nanoTime();
         EdmondsKarp ek = new EdmondsKarp(graph, "q", "s");
+        ek.findMaxFlow();
         final long timeEnd = System.nanoTime();
         //final long timeStart = System.currentTimeMillis();
 
         System.out.println("Verlaufszeit der Schleife: " + (timeEnd - timeStart) + " Nanosek.");
         assertEquals(25.0, ek.getMaximumFlow());
+    }
+
+    @Test
+    public void testBfs() {
+        File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum\\asserts\\networkTest.gka");
+        gf.initGraph(file); // initialize the graph
+        Graph graph = gf.getGraph();
+
+        EdmondsKarp ek = new EdmondsKarp(graph, "0", "5");
+        int source = graph.getNode("0").getIndex();
+        int target = graph.getNode("5").getIndex();
+        assertEquals(12.0, ek.bfs(source, target));
     }
 }
