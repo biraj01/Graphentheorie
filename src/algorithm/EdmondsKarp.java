@@ -67,7 +67,7 @@ public class EdmondsKarp {
      * @return maximum flow
      */
     public double edmondsKarp(int s, int t) {
-        double maxFlow = 0.0; // initial flow to zero
+        double maxFlow = 0.0; //initial flow to zero
         int size = graph.getNodeSet().size();
         flowMatrix = new double[size][size];
 
@@ -78,7 +78,7 @@ public class EdmondsKarp {
             }
             maxFlow = maxFlow + foundCapacity;
 
-            // backtrack search, and write flow
+            //backtrack search, and write flow
             int v = t;
             while (v != s) {
                 int u = parentTable[v];
@@ -90,7 +90,6 @@ public class EdmondsKarp {
             }
 
         }
-        //System.out.println(maxFlow);
         return maxFlow;
     }
 
@@ -99,7 +98,7 @@ public class EdmondsKarp {
         int size = graph.getNodeSet().size();
         parentTable = new int[size];
 
-        for (int u = 0; u < size; u++) { // evtl nicht stimmig
+        for (int u = 0; u < size; u++) {
             parentTable[u] = -1;
         }
         parentTable[s] = -2; //make sure source is not rediscovered
@@ -109,7 +108,8 @@ public class EdmondsKarp {
         queue.offer(s);
         while (!queue.isEmpty()) {
             Node uNode = graph.getNode(queue.poll());
-            Iterator<Node> it = graph.getNodeIterator(); // get all edges of given vertex
+            Iterator<Node> it = graph.getNodeIterator();
+            //looking for a path from source to target
             while (it.hasNext()) {
                 Node vNode = it.next();
                 if (!vNode.equals(uNode)) {
@@ -118,9 +118,9 @@ public class EdmondsKarp {
                     //if there is a available residual capacity, and v is not seen before in search
                     if (residualMatrix[u][v] > 0.0 && parentTable[v] == -1) {
                         parentTable[v] = u;
-                        capacityOfFoundPath[v] = Math.min(capacityOfFoundPath[u], capacityMatrix[u][v] - flowMatrix[u][v]); //findet den niedrigsten flow im pfad
+                        capacityOfFoundPath[v] = Math.min(capacityOfFoundPath[u], capacityMatrix[u][v] - flowMatrix[u][v]); //find the lowest flow
                         if (v != t) {
-                            queue.offer(v);
+                            queue.offer(v); //if we haven't found target yet
                         } else {
                             return capacityOfFoundPath[t];
                         }
@@ -128,7 +128,7 @@ public class EdmondsKarp {
                 }
             }
         }
-        return 0;
+        return 0.0; //return if no path was found
     }
 
     public static void main(String[] args) {
