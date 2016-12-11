@@ -38,17 +38,18 @@ public class FF {
 
     inspectAndMark();
 
-    getMaxFlow();
+    System.out.println(getMaximumFlow());
   }
+  
 
   public static void main(String[] args) {
     ReadGraph gf = new ReadGraph();
-    File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\graph5b.gka");
+    File file = new File("C:\\Users\\Biraj\\workspace\\GKA_Praktikum1\\asserts\\networkTest3.gka");
     gf.initGraph(file); // initialize the graph
     Graph g = gf.getGraph();
     gf.zeichneGraph(file); // draw the graph
     System.out.println();
-    FF ff = new FF(g, "v1", "v7");
+    FF ff = new FF(g, "s", "t");
 
   }
 
@@ -150,7 +151,7 @@ public class FF {
       for (FlowEdge<String, Node> e : n.getOutgoingEdges()) {
         double flow = e.getFlow();
         FlowNode<String, Edge> lastNode = nodes.get(e.getTarget());
-        maxFlow += flow;
+        //maxFlow += flow;
         if (n.isVisited() && !(lastNode.isVisited())) {
           e.getReversed().setFlow(0.0);
           maxFlow += flow;
@@ -171,8 +172,9 @@ public class FF {
 
   }
 
-  public void getMaxFlow() {
+  public double getMaximumFlow() {
     System.out.println("");
     System.out.println("maximaler Fluss: " + maxFlow);
+    return maxFlow;
   }
 }
