@@ -53,12 +53,17 @@ public class EdmondsKarpTest {
     }
 
     @Test
-    public void testEqualMaxFlowWithBig() {
-        File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum\\asserts\\BigNet_02_MarcelLange_BirajDhungel.gka");
+    public void testGraph4() {
+        File file = new File("C:\\Users\\Marcel\\Documents\\IntelliJ-Programme\\GKA_Praktikum\\asserts\\graph4.gka");
         gf.initGraph(file); // initialize the graph
         Graph graph = gf.getGraph();
-        EdmondsKarp ek = new EdmondsKarp(graph, "s", "t");
 
-        assertEquals(12412.0, ek.getMaximumFlow());
+        final long timeStart = System.nanoTime();
+        EdmondsKarp ek = new EdmondsKarp(graph, "q", "s");
+        final long timeEnd = System.nanoTime();
+        //final long timeStart = System.currentTimeMillis();
+
+        System.out.println("Verlaufszeit der Schleife: " + (timeEnd - timeStart) + " Nanosek.");
+        assertEquals(25.0, ek.getMaximumFlow());
     }
 }

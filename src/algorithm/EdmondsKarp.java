@@ -16,8 +16,8 @@ public class EdmondsKarp {
     private int target;
     private double[][] flowMatrix;
     private int[] parentTable;
-    private double[][] T;
-    private double[][] C;
+    private double[][] residualMatrix; // restmatrix
+    private double[][] capacityMatrix; // kapazitätsmatrix
     private double erg;
     private int SIZE;
 
@@ -27,15 +27,12 @@ public class EdmondsKarp {
         this.target = graph.getNode(t).getIndex();
 
         SIZE = graph.getNodeSet().size();
-        T = new double[SIZE][SIZE];
-        C = new double[SIZE][SIZE];
+        residualMatrix = new double[SIZE][SIZE];
+        capacityMatrix = new double[SIZE][SIZE];
 
         initMatrizen();
-        final long timeStart = System.nanoTime(); //wer hätte es gedacht ... zur zeitmessung
-        //final long timeStart = System.currentTimeMillis();
+
         erg = edmondsKarp(source, target);
-        final long timeEnd = System.nanoTime();
-        System.out.println("Verlaufszeit der Schleife: " + (timeEnd - timeStart) + " Nanosek.");
     }
 
 
@@ -43,8 +40,8 @@ public class EdmondsKarp {
         // initialise with MIN_VALUE
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                T[i][j] = -Double.MIN_VALUE;
-                C[i][j] = -Double.MIN_VALUE;
+                residualMatrix[i][j] = -Double.MIN_VALUE;
+                capacityMatrix[i][j] = -Double.MIN_VALUE;
             }
         }
 
@@ -53,10 +50,10 @@ public class EdmondsKarp {
             while (edges.hasNext()) {
                 Edge tmp = edges.next();
 
-                if (T[tmp.getSourceNode().getIndex()][tmp.getTargetNode().getIndex()] < 0)
-                    T[tmp.getSourceNode().getIndex()][tmp.getTargetNode().getIndex()] = tmp.getAttribute("edgeLength");
-                if (C[tmp.getSourceNode().getIndex()][tmp.getTargetNode().getIndex()] < 0)
-                    C[tmp.getSourceNode().getIndex()][tmp.getTargetNode().getIndex()] = tmp.getAttribute("edgeLength");
+                if (residualMatrix[tmp.getSourceNode().getIndex()][tmp.getTargetNode().getIndex()] < 0)
+                    residualMatrix[tmp.getSourceNode().getIndex()][tmp.getTargetNode().getIndex()] = tmp.getAttribute("edgeLength");
+                if (capacityMatrix[tmp.getSourceNode().getIndex()][tmp.getTargetNode().getIndex()] < 0)
+                    capacityMatrix[tmp.getSourceNode().getIndex()][tmp.getTargetNode().getIndex()] = tmp.getAttribute("edgeLength");
             }
         }
     }
@@ -79,16 +76,16 @@ public class EdmondsKarp {
             if (foundCapacity == 0.0) {
                 break;
             }
-            maxFlow = maxFlow + foundCapacity; // hier liegt der fehler +4 -4 +4 -4 ...
-            //System.out.println(maxFlow);
+            maxFlow = maxFlow + foundCapacity;
+
             // backtrack search, and write flow
             int v = t;
             while (v != s) {
                 int u = parentTable[v];
                 flowMatrix[u][v] = flowMatrix[u][v] + foundCapacity;
                 flowMatrix[v][u] = flowMatrix[v][u] - foundCapacity;
-                T[u][v] = T[u][v] - foundCapacity;
-                T[v][u] = T[v][u] + foundCapacity;
+                residualMatrix[u][v] = residualMatrix[u][v] - foundCapacity;
+                residualMatrix[v][u] = residualMatrix[v][u] + foundCapacity;
                 v = u;
             }
 
@@ -119,9 +116,9 @@ public class EdmondsKarp {
                     int u = uNode.getIndex();
                     int v = vNode.getIndex();
                     //if there is a available residual capacity, and v is not seen before in search
-                    if (T[u][v] > 0.0 && parentTable[v] == -1) {
+                    if (residualMatrix[u][v] > 0.0 && parentTable[v] == -1) {
                         parentTable[v] = u;
-                        capacityOfFoundPath[v] = Math.min(capacityOfFoundPath[u], C[u][v] - flowMatrix[u][v]); //findet den niedrigsten flow im pfad
+                        capacityOfFoundPath[v] = Math.min(capacityOfFoundPath[u], capacityMatrix[u][v] - flowMatrix[u][v]); //findet den niedrigsten flow im pfad
                         if (v != t) {
                             queue.offer(v);
                         } else {
@@ -160,11 +157,11 @@ public class EdmondsKarp {
     }
 
     public double[][] getT() {
-        return T;
+        return residualMatrix;
     }
 
     public double[][] getC() {
-        return C;
+        return capacityMatrix;
     }
 
     public double getMaximumFlow() {
